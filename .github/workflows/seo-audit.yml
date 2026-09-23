@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       url:
-        description: "URL to audit"
+        description: URL to audit
         required: true
-        default: "https://store.toledomuseum.org/"
+        default: https://store.toledomuseum.org
 
 jobs:
   audit:
@@ -16,68 +16,50 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Install Python Packages
+      - name: Install Packages
         run: |
           pip install requests beautifulsoup4
 
       - name: Create SEO Audit Script
         run: |
-          cat << 'EOF' > seo_audit.py
+          cat > seo_audit.py << 'EOF'
           import requests
           from bs4 import BeautifulSoup
+          import os
 
-          url = "${{ github.event.inputs.url }}"
+          url = os.environ["URL"]
 
           response = requests.get(url, timeout=20)
           soup = BeautifulSoup(response.text, "html.parser")
 
-          title = soup.title.string.strip() if soup.title else "Missing"
+          title = soup.title.string.strip() if soup.title and soup.title.string else "Missing"
 
-          meta = soup.find("meta", attrs={"name":"description"})
-          meta_desc = meta.get("content","Missing") if meta else "Missing"
+          meta = soup.find("meta", attrs={"name": "description"})
+          meta_desc = meta.get("content", "Missing") if meta else "Missing"
 
           h1_tags = [h.get_text(strip=True) for h in soup.find_all("h1")]
 
           images = soup.find_all("img")
           missing_alt = len([img for img in images if not img.get("alt")])
 
-          report = f"""
-# SEO Audit Report
-
-URL: {url}
-
-## Title Tag
-{title}
-
-Length: {len(title)}
-
-## Meta Description
-{meta_desc}
-
-Length: {len(meta_desc)}
-
-## H1 Tags
-{chr(10).join(h1_tags) if h1_tags else "None Found"}
-
-## Images
-
-Total Images: {len(images)}
-
-Missing Alt Text: {missing_alt}
-
-## Recommendations
-
-- Ensure one primary H1
-- Add alt text to all images
-- Keep titles below 60 characters
-- Keep meta descriptions around 150-160 characters
-"""
-
-          with open("seo-report.md","w") as f:
-              f.write(report)
+          with open("seo-report.md", "w") as f:
+              f.write(f"# SEO Audit Report\n\n")
+              f.write(f"URL: {url}\n\n")
+              f.write(f"## Title Tag\n{title}\n\n")
+              f.write(f"Title Length: {len(title)}\n\n")
+              f.write(f"## Meta Description\n{meta_desc}\n\n")
+              f.write(f"Meta Length: {len(meta_desc)}\n\n")
+              f.write("## H1 Tags\n")
+              for h1 in h1_tags:
+                  f.write(f"- {h1}\n")
+              f.write("\n")
+              f.write(f"Total Images: {len(images)}\n")
+              f.write(f"Images Missing Alt Text: {missing_alt}\n")
           EOF
 
       - name: Run Audit
+        env:
+          URL: ${{ inputs.url }}
         run: python seo_audit.py
 
       - name: Upload Report
