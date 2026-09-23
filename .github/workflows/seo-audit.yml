@@ -1,0 +1,87 @@
+name: SEO Audit Agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "URL to audit"
+        required: true
+        default: "https://store.toledomuseum.org/"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Python Packages
+        run: |
+          pip install requests beautifulsoup4
+
+      - name: Create SEO Audit Script
+        run: |
+          cat << 'EOF' > seo_audit.py
+          import requests
+          from bs4 import BeautifulSoup
+
+          url = "${{ github.event.inputs.url }}"
+
+          response = requests.get(url, timeout=20)
+          soup = BeautifulSoup(response.text, "html.parser")
+
+          title = soup.title.string.strip() if soup.title else "Missing"
+
+          meta = soup.find("meta", attrs={"name":"description"})
+          meta_desc = meta.get("content","Missing") if meta else "Missing"
+
+          h1_tags = [h.get_text(strip=True) for h in soup.find_all("h1")]
+
+          images = soup.find_all("img")
+          missing_alt = len([img for img in images if not img.get("alt")])
+
+          report = f"""
+# SEO Audit Report
+
+URL: {url}
+
+## Title Tag
+{title}
+
+Length: {len(title)}
+
+## Meta Description
+{meta_desc}
+
+Length: {len(meta_desc)}
+
+## H1 Tags
+{chr(10).join(h1_tags) if h1_tags else "None Found"}
+
+## Images
+
+Total Images: {len(images)}
+
+Missing Alt Text: {missing_alt}
+
+## Recommendations
+
+- Ensure one primary H1
+- Add alt text to all images
+- Keep titles below 60 characters
+- Keep meta descriptions around 150-160 characters
+"""
+
+          with open("seo-report.md","w") as f:
+              f.write(report)
+          EOF
+
+      - name: Run Audit
+        run: python seo_audit.py
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: seo-report
+          path: seo-report.md
