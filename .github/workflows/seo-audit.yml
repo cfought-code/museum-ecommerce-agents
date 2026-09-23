@@ -1,0 +1,21 @@
+name: SEO Audit Agent
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create Report
+        run: |
+          echo "# SEO Audit Report" > report.md
+          echo "" >> report.md
+          echo "Store URL: https://store.toledomuseum.org/" >> report.md
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: seo-report
+          path: report.md
