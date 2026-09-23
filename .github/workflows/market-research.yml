@@ -1,0 +1,30 @@
+name: Market Research Agent
+
+on:
+  workflow_dispatch:
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Generate Research Template
+        run: |
+          mkdir -p reports/research
+
+          echo "# Market Research Report" > reports/research/report.md
+          echo "" >> reports/research/report.md
+          echo "## Competitors" >> reports/research/report.md
+          echo "- Add competitor findings here" >> reports/research/report.md
+          echo "" >> reports/research/report.md
+          echo "## Trends" >> reports/research/report.md
+          echo "- Add trend findings here" >> reports/research/report.md
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: market-research-report
+          path: reports/research/report.md
