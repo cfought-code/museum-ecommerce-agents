@@ -216,3 +216,25 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Secrets
+.env
+.env.*
+
+# Data
+data/raw/*
+!data/raw/.gitkeep
+
+data/processed/*
+!data/processed/.gitkeep
+
+# Reports
+reports/*
+!reports/.gitkeep
+
+# AI
+prompts/archive/
+
+# OS
+.DS_Store
+Thumbs.db
