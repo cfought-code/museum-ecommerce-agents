@@ -1,5 +1,3 @@
-# museum-ecommerce-agents
-Ecommerce Workflows
 # Museum Ecommerce Agents
 
 AI-powered workflows for ecommerce analytics, SEO, AEO (Answer Engine Optimization), market research, and content generation.
