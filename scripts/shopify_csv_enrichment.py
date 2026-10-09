@@ -2,6 +2,9 @@ import os
 import pandas as pd
 
 from data.category_rules import CATEGORY_RULES
+from scripts.content_generator import (
+    generate_content
+)
 
 print("Starting Shopify CSV Enrichment...")
 
@@ -127,29 +130,25 @@ for index, row in df.iterrows():
     # CONTENT GENERATION
     # --------------------------------------
 
+        content = generate_content(
+        product_name=title,
+        artist=vendor,
+        category=category,
+        materials="Unknown Materials",
+        vendor_description="",
+        collection_recommendation=collection
+    )
+
     short_description = (
-        f"{title} by {vendor} combines artistic "
-        f"expression and thoughtful craftsmanship, "
-        f"making it a distinctive addition to any "
-        f"collection."
+        content["short_description"]
     )
 
     long_description = (
-        f"{title} showcases the creative vision of "
-        f"{vendor}. Inspired by artistic excellence "
-        f"and museum-quality design, this "
-        f"{category} offers a meaningful way to "
-        f"bring creativity into everyday life. "
-        f"Whether purchased as a gift or for a "
-        f"personal collection, it reflects the "
-        f"Toledo Museum of Art Store tradition of "
-        f"connecting people with art and design."
+        content["long_description"]
     )
 
     meta_description = (
-        f"Discover {title} by {vendor}. "
-        f"A museum-quality {category} ideal for "
-        f"collecting, gifting, and everyday inspiration."
+        content["meta_description"]
     )
 
     # --------------------------------------
