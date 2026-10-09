@@ -1,0 +1,79 @@
+name: Product Description Agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      product_name:
+        description: "Product Name"
+        required: true
+        type: string
+
+      artist:
+        description: "Artist / Designer"
+        required: true
+        type: string
+
+      category:
+        description: "Category"
+        required: true
+        type: string
+
+jobs:
+  generate-description:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Generate Report
+        run: |
+          mkdir -p reports/products
+
+          cat > reports/products/product-description-report.md << EOF
+          # Product Description Report
+
+          ## Product Name
+
+          ${{ github.event.inputs.product_name }}
+
+          ## Artist / Designer
+
+          ${{ github.event.inputs.artist }}
+
+          ## Category
+
+          ${{ github.event.inputs.category }}
+
+          ## Shopify Product Description
+
+          This product combines artistic craftsmanship with thoughtful design, making it a distinctive addition to any collection. Inspired by museum-quality aesthetics, it offers a unique way to bring creativity and design into everyday life.
+
+          ## SEO Meta Description
+
+          Discover ${{ github.event.inputs.product_name }}, a museum-quality piece by ${{ github.event.inputs.artist }} designed to inspire and delight.
+
+          ## Suggested Shopify Tags
+
+          - museum store
+          - design
+          - gift
+          - art
+          - collectible
+          - ${{ github.event.inputs.category }}
+
+          ## Suggested Keywords
+
+          - museum gift
+          - unique design
+          - artist made
+          - home decor
+          - creative gift
+
+          EOF
+
+      - name: Upload Product Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: product-description-report
+          path: reports/products/product-description-report.md
