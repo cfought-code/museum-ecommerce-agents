@@ -1,0 +1,29 @@
+name: Competitor Scan Agent
+
+on:
+  workflow_dispatch:
+
+jobs:
+  competitor-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate Competitor Report
+        run: |
+          mkdir -p reports/market
+
+          echo "# Competitor Intelligence Report" > reports/market/competitor-report.md
+          echo "" >> reports/market/competitor-report.md
+          echo "Competitors Reviewed:" >> reports/market/competitor-report.md
+          echo "- Corning Museum of Glass Shops" >> reports/market/competitor-report.md
+          echo "- MCA Chicago Store" >> reports/market/competitor-report.md
+          echo "- Museum of Glass Store" >> reports/market/competitor-report.md
+          echo "- Artful Home" >> reports/market/competitor-report.md
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: competitor-report
+          path: reports/market/competitor-report.md
