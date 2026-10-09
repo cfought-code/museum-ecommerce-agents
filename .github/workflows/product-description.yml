@@ -73,7 +73,7 @@ jobs:
           PRODUCT_URL: ${{ github.event.inputs.product_url }}
 
         run: |
-          python scripts/product_content_engine.py
+          python -m scripts.product_content_engine
 
       - name: Upload Product Report
         uses: actions/upload-artifact@v4
