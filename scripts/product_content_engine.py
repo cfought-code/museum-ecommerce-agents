@@ -3,6 +3,10 @@ import os
 
 from data.category_rules import CATEGORY_RULES
 
+from scripts.content_generator import (
+    generate_content
+)
+
 # ==========================================
 # INPUTS
 # ==========================================
@@ -92,29 +96,26 @@ elif "exhibition" in category_lower:
         "this item extends the visitor experience beyond the gallery."
     )
 
+# ==========================================
+# CONTENT GENERATION
+# ==========================================
+
 content = generate_content(
-    product_name,
-    artist,
-    category,
-    materials,
-    vendor_description,
-    collection_recommendation
+    product_name=product_name,
+    artist=artist,
+    category=category,
+    materials=materials,
+    vendor_description=vendor_description,
+    collection_recommendation=collection_recommendation
 )
 
-shopify_title = (
-    content["shopify_title"]
-)
+shopify_title = content["shopify_title"]
 
-short_description = (
-    content["short_description"]
-)
+short_description = content["short_description"]
 
-long_description = (
-    content["long_description"]
-)
+long_description = content["long_description"]
 
-meta_description = (
-    content["meta_description"]
+meta_description = content["meta_description"]
 )
 
 # ==========================================
@@ -214,7 +215,4 @@ with open(
 print(
     f"Product Description Report generated successfully: "
     f"{output_file}"
-)
-from scripts.content_generator import (
-    generate_content
 )
