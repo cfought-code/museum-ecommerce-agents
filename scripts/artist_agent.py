@@ -1,6 +1,12 @@
 import os
 from datetime import datetime
 
+from data.artist_content import ARTIST_CONTENT
+
+# ==========================================
+# INPUTS
+# ==========================================
+
 artist_name = os.environ.get(
     "ARTIST_NAME",
     ""
@@ -21,6 +27,67 @@ artist_statement = os.environ.get(
     ""
 )
 
+medium_lower = (
+    medium.lower().strip()
+)
+
+# ==========================================
+# MEDIUM LOOKUP
+# ==========================================
+
+artist_rule = ARTIST_CONTENT.get(
+    medium_lower
+)
+
+if not artist_rule:
+
+    artist_rule = ARTIST_CONTENT[
+        "default"
+    ]
+
+# ==========================================
+# CONTENT VARIABLES
+# ==========================================
+
+bio_focus = (
+    artist_rule["bio_focus"]
+)
+
+artist_story_text = (
+    artist_rule["artist_story"]
+)
+
+collection_intro = (
+    artist_rule["collection_intro"]
+)
+
+# ==========================================
+# CONTENT GENERATION
+# ==========================================
+
+short_bio = (
+    f"{artist_name} is a {bio_focus} "
+    f"whose work demonstrates a commitment "
+    f"to craftsmanship, creativity, and "
+    f"artistic expression."
+)
+
+artist_story = (
+    f"{artist_story_text} "
+    f"{artist_statement}"
+)
+
+seo_description = (
+    f"Discover the work of {artist_name}, "
+    f"a {bio_focus} creating museum-quality "
+    f"artwork that celebrates creativity, "
+    f"craftsmanship, and design."
+)
+
+# ==========================================
+# REPORT
+# ==========================================
+
 report = f"""# Artist Agent Report
 
 Generated:
@@ -28,55 +95,61 @@ Generated:
 
 ---
 
-## Artist Name
+## Artist Information
 
-{artist_name}
+**Artist Name:** {artist_name}
 
-## Primary Medium
+**Primary Medium:** {medium}
 
-{medium}
-
-## Location
-
-{location}
+**Location:** {location}
 
 ---
 
 ## Short Artist Bio
 
-{artist_name} works primarily in {medium}. Their work reflects a commitment to craftsmanship, creativity, and artistic expression.
+{short_bio}
 
 ---
 
 ## Artist Story
 
-Through a practice centered on {medium}, {artist_name} creates work that encourages curiosity, appreciation for materials, and thoughtful engagement with art.
-
-{artist_statement}
+{artist_story}
 
 ---
 
 ## Collection Introduction
 
-The work of {artist_name} demonstrates the creative possibilities of {medium}. These pieces highlight artistic vision, technical skill, and a dedication to making meaningful connections through art.
+{collection_intro}
 
 ---
 
 ## SEO Meta Description
 
-Discover the work of {artist_name}, an artist working in {medium}. Explore museum-quality artwork celebrating creativity, craftsmanship, and design.
+{seo_description}
+
 """
+
+# ==========================================
+# SAVE REPORT
+# ==========================================
 
 os.makedirs(
     "reports/artists",
     exist_ok=True
 )
 
+output_file = (
+    "reports/artists/artist-report.md"
+)
+
 with open(
-    "reports/artists/artist-report.md",
+    output_file,
     "w",
     encoding="utf-8"
 ) as file:
+
     file.write(report)
 
-print("Artist report generated successfully.")
+print(
+    f"Artist report generated: {output_file}"
+)
