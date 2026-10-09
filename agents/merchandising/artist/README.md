@@ -2,27 +2,25 @@
 
 ## Purpose
 
-The Artist Agent generates artist-focused content for museum retail, ecommerce, and educational storytelling.
-
-## Responsibilities
-
-- Artist biographies
-- Artist stories
-- Collection narratives
-- Designer profiles
-- SEO content
+Generates artist-focused content for museum retail and ecommerce.
 
 ## Outputs
 
-- Short artist bios
-- Extended artist profiles
-- Collection descriptions
-- Product storytelling
-- Artist landing page content
+- Artist Biography
+- Artist Story
+- Collection Introduction
+- SEO Meta Description
+
+## Use Cases
+
+- Collector's Corner
+- Artist Landing Pages
+- Product Pages
+- Exhibition Merchandise
 
 ## Future Enhancements
 
-- Artist research workflow
+- Artist research automation
 - Artist timeline generation
 - Exhibition connections
 - AI-powered artist summaries
