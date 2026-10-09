@@ -10,6 +10,94 @@ collection = os.environ.get("COLLECTION", "")
 price = os.environ.get("PRICE", "")
 dimensions = os.environ.get("DIMENSIONS", "")
 product_url = os.environ.get("PRODUCT_URL", "")
+# Category Intelligence
+
+category_lower = category.lower()
+
+if "mobile" in category_lower:
+    keywords = [
+        "hanging mobile",
+        "kinetic art",
+        "scandinavian design",
+        "modern decor",
+        "museum gift"
+    ]
+
+    cross_sells = [
+        "Design books",
+        "Decorative objects",
+        "Wall art"
+    ]
+
+elif "jewelry" in category_lower:
+    keywords = [
+        "artist jewelry",
+        "museum jewelry",
+        "wearable art",
+        "handcrafted jewelry",
+        "gift jewelry"
+    ]
+
+    cross_sells = [
+        "Jewelry trays",
+        "Scarves",
+        "Artist accessories"
+    ]
+
+elif "glass" in category_lower:
+    keywords = [
+        "art glass",
+        "glass sculpture",
+        "museum glass",
+        "glass gift",
+        "decorative glass"
+    ]
+
+    cross_sells = [
+        "Glass ornaments",
+        "Paperweights",
+        "Glass books"
+    ]
+
+else:
+    keywords = [
+        "museum gift",
+        "artist made",
+        "design object",
+        "home decor",
+        "collectible art"
+    ]
+
+    cross_sells = [
+        "Museum gifts",
+        "Design books"
+    ]
+
+## Gift Guide Category
+
+{"".join([f"- {gift}\n" for gift in gift_categories])}
+
+# Collection Recommendation
+
+collection_recommendation = collection
+
+if not collection:
+
+    if "mobile" in category_lower:
+        collection_recommendation = "Modern Design"
+
+    elif "jewelry" in category_lower:
+        collection_recommendation = "Artist Jewelry"
+
+    elif "glass" in category_lower:
+        collection_recommendation = "Glass Art"
+
+    else:
+        collection_recommendation = "Museum Favorites"
+
+## Cross-Sell Opportunities
+
+{"".join([f"- {item}\n" for item in cross_sells])}
 
 report = f"""
 # Product Description Agent Report
@@ -34,6 +122,8 @@ Generated: {datetime.now()}
 
 **Product URL:** {product_url}
 
+**Recommended Collection:** {collection_recommendation}
+
 ---
 
 ## Vendor Description
@@ -50,13 +140,17 @@ Generated: {datetime.now()}
 
 ## Short Description
 
-Bring museum-quality design into everyday life with {product_name}. Created by {artist}, this distinctive piece showcases thoughtful craftsmanship and contemporary appeal.
+{product_name} by {artist} combines thoughtful craftsmanship and artistic design. Created from {materials}, this distinctive piece makes a memorable gift and a striking addition to any collection.
 
 ---
 
 ## Long Description
 
-{product_name} is a beautifully designed work by {artist} that reflects creativity, craftsmanship, and functionality. Crafted from {materials}, this piece offers collectors and design enthusiasts an opportunity to incorporate artistic expression into their home or workspace.
+{product_name} showcases the creative vision of {artist}. Crafted from {materials}, this museum-quality {category.lower()} blends artistic expression with everyday enjoyment.
+
+{vendor_description}
+
+Whether displayed at home, in an office, or given as a thoughtful gift, this piece reflects the museum store tradition of offering meaningful objects that inspire curiosity, creativity, and appreciation for design.
 
 ---
 
@@ -78,11 +172,7 @@ Discover {product_name} by {artist}. A museum-quality design object crafted from
 
 ## Suggested Keywords
 
-- museum gift
-- artist designed
-- contemporary design
-- home decor
-- collectible art
+{"".join([f"- {keyword}\n" for keyword in keywords])}
 """
 
 os.makedirs("reports/products", exist_ok=True)
