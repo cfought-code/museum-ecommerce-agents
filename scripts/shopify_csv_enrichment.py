@@ -1,57 +1,128 @@
+import os
 import pandas as pd
 
-# Load Shopify export
+from data.category_rules import CATEGORY_RULES
 
-df = pd.read_csv(
-    "data/shopify/products.csv"
+# ==========================================
+# FILES
+# ==========================================
+
+INPUT_FILE = "data/shopify/products.csv"
+
+OUTPUT_FILE = (
+    "reports/shopify_exports/enriched_products.csv"
 )
 
-# Create new columns
+# ==========================================
+# LOAD CSV
+# ==========================================
+
+df = pd.read_csv(INPUT_FILE)
+
+# ==========================================
+# NEW COLUMNS
+# ==========================================
 
 df["AI_Collection"] = ""
 df["AI_Keywords"] = ""
 df["AI_Cross_Sells"] = ""
+df["AI_Gift_Guide"] = ""
+
+# ==========================================
+# ENRICH PRODUCTS
+# ==========================================
 
 for index, row in df.iterrows():
 
     category = str(
         row.get("Type", "")
-    ).lower()
+    ).lower().strip()
 
-    if "jewelry" in category:
+    price = 0
 
-        df.at[index, "AI_Collection"] = \
-            "Artist Jewelry"
+    try:
+        price = float(
+            str(row.get("Variant Price", "0"))
+            .replace("$", "")
+            .replace(",", "")
+        )
+    except:
+        pass
 
-        df.at[index, "AI_Keywords"] = \
-            "artist jewelry, wearable art, museum jewelry"
+    rule = CATEGORY_RULES.get(category)
 
-        df.at[index, "AI_Cross_Sells"] = \
-            "Scarves, Jewelry Trays"
+    if rule:
 
-    elif "glass" in category:
+        collection = rule["collection"]
 
-        df.at[index, "AI_Collection"] = \
-            "Glass Art"
+        keywords = ", ".join(
+            rule["keywords"]
+        )
 
-        df.at[index, "AI_Keywords"] = \
-            "studio glass, art glass, collector gift"
-
-        df.at[index, "AI_Cross_Sells"] = \
-            "Glass Books, Paperweights"
+        cross_sells = ", ".join(
+            rule["cross_sells"]
+        )
 
     else:
 
-        df.at[index, "AI_Collection"] = \
-            "Museum Favorites"
+        collection = "Museum Favorites"
 
-# Save enriched file
+        keywords = (
+            "museum gift, art inspired, design object"
+        )
+
+        cross_sells = (
+            "Museum publications, Design books"
+        )
+
+    if price < 30:
+
+        gift_guide = (
+            "Stocking Stuffers"
+        )
+
+    elif price < 75:
+
+        gift_guide = (
+            "Gifts Under $75"
+        )
+
+    else:
+
+        gift_guide = (
+            "Premium Gifts"
+        )
+
+    df.at[index, "AI_Collection"] = (
+        collection
+    )
+
+    df.at[index, "AI_Keywords"] = (
+        keywords
+    )
+
+    df.at[index, "AI_Cross_Sells"] = (
+        cross_sells
+    )
+
+    df.at[index, "AI_Gift_Guide"] = (
+        gift_guide
+    )
+
+# ==========================================
+# SAVE
+# ==========================================
+
+os.makedirs(
+    "reports/shopify_exports",
+    exist_ok=True
+)
 
 df.to_csv(
-    "reports/shopify_exports/enriched_products.csv",
+    OUTPUT_FILE,
     index=False
 )
 
 print(
-    "Shopify enrichment complete."
+    f"Enriched CSV created: {OUTPUT_FILE}"
 )
