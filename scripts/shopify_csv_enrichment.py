@@ -2,14 +2,12 @@ import os
 import pandas as pd
 
 from data.category_rules import CATEGORY_RULES
-from scripts.content_generator import (
-    generate_content
-)
+from scripts.content_generator import generate_content
 
 print("Starting Shopify CSV Enrichment...")
 
 # ==========================================
-# FILE PATHS
+# FILES
 # ==========================================
 
 INPUT_FILE = "data/shopify/products.csv"
@@ -19,7 +17,7 @@ OUTPUT_FILE = (
 )
 
 # ==========================================
-# LOAD PRODUCTS
+# LOAD CSV
 # ==========================================
 
 df = pd.read_csv(INPUT_FILE)
@@ -27,7 +25,7 @@ df = pd.read_csv(INPUT_FILE)
 print(f"Loaded {len(df)} products")
 
 # ==========================================
-# NEW AI COLUMNS
+# CREATE NEW COLUMNS
 # ==========================================
 
 df["AI_Collection"] = ""
@@ -56,6 +54,14 @@ for index, row in df.iterrows():
         row.get("Vendor", "")
     ).strip()
 
+    body_html = str(
+        row.get("Body (HTML)", "")
+    ).strip()
+
+    # --------------------------------------
+    # PRICE
+    # --------------------------------------
+
     price = 0
 
     try:
@@ -73,7 +79,7 @@ for index, row in df.iterrows():
         pass
 
     # --------------------------------------
-    # CATEGORY RULE LOOKUP
+    # CATEGORY RULES
     # --------------------------------------
 
     rule = CATEGORY_RULES.get(category)
@@ -92,9 +98,7 @@ for index, row in df.iterrows():
 
     else:
 
-        collection = (
-            "Museum Favorites"
-        )
+        collection = "Museum Favorites"
 
         keywords = (
             "museum gift, art inspired, artist made"
@@ -105,7 +109,7 @@ for index, row in df.iterrows():
         )
 
     # --------------------------------------
-    # GIFT GUIDE LOGIC
+    # GIFT GUIDE
     # --------------------------------------
 
     if price < 30:
@@ -130,12 +134,12 @@ for index, row in df.iterrows():
     # CONTENT GENERATION
     # --------------------------------------
 
-        content = generate_content(
+    content = generate_content(
         product_name=title,
         artist=vendor,
         category=category,
         materials="Unknown Materials",
-        vendor_description="",
+        vendor_description=body_html,
         collection_recommendation=collection
     )
 
@@ -152,7 +156,7 @@ for index, row in df.iterrows():
     )
 
     # --------------------------------------
-    # SAVE ENRICHED VALUES
+    # SAVE ROW VALUES
     # --------------------------------------
 
     df.at[index, "AI_Collection"] = (
@@ -192,7 +196,9 @@ os.makedirs(
     exist_ok=True
 )
 
-print(f"Writing file: {OUTPUT_FILE}")
+print(
+    f"Writing output file: {OUTPUT_FILE}"
+)
 
 df.to_csv(
     OUTPUT_FILE,
