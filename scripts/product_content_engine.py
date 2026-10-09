@@ -116,7 +116,6 @@ short_description = content["short_description"]
 long_description = content["long_description"]
 
 meta_description = content["meta_description"]
-)
 
 # ==========================================
 # REPORT GENERATION
