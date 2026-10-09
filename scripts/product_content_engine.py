@@ -92,36 +92,29 @@ elif "exhibition" in category_lower:
         "this item extends the visitor experience beyond the gallery."
     )
 
-# ==========================================
-# CONTENT GENERATION
-# ==========================================
-
-shopify_title = f"{product_name} by {artist}"
-
-short_description = (
-    f"{product_name} by {artist} combines thoughtful craftsmanship "
-    f"and artistic design. Created from {materials}, this distinctive "
-    f"piece makes a memorable gift and a striking addition to any collection."
+content = generate_content(
+    product_name,
+    artist,
+    category,
+    materials,
+    vendor_description,
+    collection_recommendation
 )
 
-long_description = f"""
-{product_name} showcases the creative vision of {artist}. Crafted from
-{materials}, this museum-quality {category.lower()} blends artistic
-expression with everyday enjoyment.
+shopify_title = (
+    content["shopify_title"]
+)
 
-{vendor_description}
+short_description = (
+    content["short_description"]
+)
 
-{exclusive_message}
-
-Whether displayed at home, in an office, or given as a thoughtful gift,
-this piece reflects the museum store tradition of offering meaningful
-objects that inspire curiosity, creativity, and appreciation for design.
-"""
+long_description = (
+    content["long_description"]
+)
 
 meta_description = (
-    f"Discover {product_name} by {artist}. Crafted from "
-    f"{materials}, this museum-quality {category.lower()} "
-    f"is ideal for gifting and collecting."
+    content["meta_description"]
 )
 
 # ==========================================
@@ -221,4 +214,7 @@ with open(
 print(
     f"Product Description Report generated successfully: "
     f"{output_file}"
+)
+from scripts.content_generator import (
+    generate_content
 )
