@@ -138,4 +138,12 @@ for index, row in df.iterrows():
         f"bring creativity into everyday life. "
         f"Whether purchased as a gift or for a "
         f"personal collection, it reflects the "
-    
+        f"Toledo Museum of Art Store tradition of "
+        f"connecting people with art and design."
+    )
+
+    meta_description = (
+        f"Discover {title} by {vendor}. "
+        f"A museum-quality {category} ideal for "
+        f"collecting, gifting, and everyday inspiration."
+    )
