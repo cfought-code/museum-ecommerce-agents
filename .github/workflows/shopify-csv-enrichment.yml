@@ -1,0 +1,33 @@
+name: Shopify CSV Enrichment Agent
+
+on:
+  workflow_dispatch:
+
+jobs:
+  enrich-products:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Dependencies
+        run: |
+          pip install pandas
+
+      - name: Run Enrichment
+        run: |
+          python -m scripts.shopify_csv_enrichment
+
+      - name: Upload CSV
+        uses: actions/upload-artifact@v4
+        with:
+          name: enriched-products
+          path: reports/shopify_exports/enriched_products.csv
