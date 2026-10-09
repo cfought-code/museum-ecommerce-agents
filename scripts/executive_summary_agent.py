@@ -7,48 +7,112 @@ reporting_period = os.environ.get(
 )
 
 # ==========================================
-# HELPER
+# HELPERS
 # ==========================================
 
-def count_reports(path):
+def get_report_contents(folder):
 
-    if not os.path.exists(path):
-        return 0
+    contents = []
 
-    files = []
+    if not os.path.exists(folder):
+        return contents
 
-    for root, dirs, filenames in os.walk(path):
+    for root, _, files in os.walk(folder):
 
-        for filename in filenames:
+        for filename in files:
 
-            if (
-                filename.endswith(".md")
-                or filename.endswith(".txt")
-                or filename.endswith(".csv")
-            ):
-                files.append(filename)
+            if filename.endswith(".md"):
 
-    return len(files)
+                filepath = os.path.join(
+                    root,
+                    filename
+                )
+
+                try:
+
+                    with open(
+                        filepath,
+                        "r",
+                        encoding="utf-8"
+                    ) as file:
+
+                        contents.append(
+                            file.read()
+                        )
+
+                except Exception:
+
+                    pass
+
+    return contents
+
 
 # ==========================================
-# REPORT COUNTS
+# LOAD REPORTS
 # ==========================================
 
-product_reports = count_reports(
+product_reports = get_report_contents(
     "reports/products"
 )
 
-artist_reports = count_reports(
+artist_reports = get_report_contents(
     "reports/artists"
 )
 
-market_reports = count_reports(
+market_reports = get_report_contents(
     "reports/market"
 )
 
-executive_reports = count_reports(
-    "reports/executive"
+# ==========================================
+# THEME DETECTION
+# ==========================================
+
+themes = {
+    "Studio Glass Art": 0,
+    "Designer Jewelry": 0,
+    "Kids Gifts": 0,
+    "Books & Media": 0,
+    "Home Decor": 0,
+    "Artist Storytelling": 0,
+    "Glass Art": 0,
+    "Museum Favorites": 0
+}
+
+all_content = (
+    "\n".join(product_reports)
+    + "\n"
+    + "\n".join(artist_reports)
+    + "\n"
+    + "\n".join(market_reports)
+).lower()
+
+for theme in themes:
+
+    themes[theme] = (
+        all_content.lower().count(
+            theme.lower()
+        )
+    )
+
+# ==========================================
+# TOP THEMES
+# ==========================================
+
+sorted_themes = sorted(
+    themes.items(),
+    key=lambda x: x[1],
+    reverse=True
 )
+
+top_themes = []
+
+for theme, count in sorted_themes:
+
+    if count > 0:
+
+        top_themes.append(
+            f"- {theme} ({count} references)"
+        )
 
 # ==========================================
 # RECOMMENDATIONS
@@ -56,25 +120,34 @@ executive_reports = count_reports(
 
 recommendations = []
 
-if market_reports > 0:
+if themes["Studio Glass Art"] > 0:
+
     recommendations.append(
-        "Review competitor intelligence and identify merchandising opportunities."
+        "Continue expanding Studio Glass Art merchandise and storytelling."
     )
 
-if product_reports > 0:
+if themes["Designer Jewelry"] > 0:
+
     recommendations.append(
-        "Continue expanding product enrichment coverage across the catalog."
+        "Promote Designer Jewelry in gifting and seasonal campaigns."
     )
 
-if artist_reports > 0:
+if themes["Artist Storytelling"] > 0:
+
     recommendations.append(
-        "Increase artist storytelling and collection-level content."
+        "Expand artist-focused content across product listings."
+    )
+
+if themes["Home Decor"] > 0:
+
+    recommendations.append(
+        "Highlight design-focused home décor collections."
     )
 
 if not recommendations:
 
     recommendations.append(
-        "Continue generating reports to build the intelligence repository."
+        "Continue generating reports to strengthen trend analysis."
     )
 
 # ==========================================
@@ -93,82 +166,52 @@ Reporting Period:
 
 # Executive Summary
 
-This briefing summarizes activity generated across the Museum Ecommerce Agents platform.
+This briefing summarizes report activity and recurring themes identified across museum ecommerce workflows.
 
 ---
 
-# Report Activity
+# Reports Reviewed
 
-## Product Reports
+Product Reports: {len(product_reports)}
 
-{product_reports}
+Artist Reports: {len(artist_reports)}
 
-## Artist Reports
-
-{artist_reports}
-
-## Market Intelligence Reports
-
-{market_reports}
-
-## Previous Executive Summaries
-
-{executive_reports}
+Market Reports: {len(market_reports)}
 
 ---
 
-# Key Observations
+# Top Themes
 
 """
 
-if product_reports > 0:
+if top_themes:
 
-    report += """
-- Product intelligence reports are available for merchandising review.
-"""
+    report += "\n".join(top_themes)
 
-if artist_reports > 0:
+else:
 
-    report += """
-- Artist-focused content has been generated and is available for storytelling initiatives.
-"""
-
-if market_reports > 0:
-
-    report += """
-- Competitive intelligence reports are available for strategic review.
-"""
-
-if (
-    product_reports == 0
-    and artist_reports == 0
-    and market_reports == 0
-):
-
-    report += """
-- No supporting reports were found.
-"""
+    report += "\nNo recurring themes identified."
 
 report += """
 
 ---
 
-# Recommended Actions
+# Strategic Recommendations
 
 """
 
-for index, item in enumerate(
+for index, recommendation in enumerate(
     recommendations,
     start=1
 ):
 
-    report += f"{index}. {item}\n"
+    report += f"\n{index}. {recommendation}"
 
 report += """
 
 ---
 
-# Competitors Monitored
+# Competitor Monitoring
 
 - Corning Museum of Glass
 - MCA Chicago Store
@@ -177,12 +220,13 @@ report += """
 
 ---
 
-# Strategic Priorities
+# Future Focus Areas
 
-- Strengthen artist storytelling.
-- Expand collection-level content.
-- Continue SEO and AEO optimization.
-- Monitor merchandising and gifting trends.
+- Artist Storytelling
+- Collection Development
+- Product Content Quality
+- SEO & AEO Readiness
+- Museum Retail Trends
 """
 
 # ==========================================
