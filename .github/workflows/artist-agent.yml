@@ -1,0 +1,55 @@
+name: Artist Agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      artist_name:
+        description: "Artist Name"
+        required: true
+        type: string
+
+      medium:
+        description: "Primary Medium"
+        required: true
+        type: string
+
+      location:
+        description: "Artist Location"
+        required: false
+        type: string
+
+      artist_statement:
+        description: "Artist Statement"
+        required: false
+        type: string
+
+jobs:
+  generate-artist-content:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Generate Artist Content
+        env:
+          ARTIST_NAME: ${{ github.event.inputs.artist_name }}
+          MEDIUM: ${{ github.event.inputs.medium }}
+          LOCATION: ${{ github.event.inputs.location }}
+          ARTIST_STATEMENT: ${{ github.event.inputs.artist_statement }}
+
+        run: |
+          python -m scripts.artist_agent
+
+      - name: Upload Artist Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: artist-report
+          path: reports/artists/artist-report.md
