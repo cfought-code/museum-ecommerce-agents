@@ -119,76 +119,23 @@ for index, row in df.iterrows():
             "Premium Gifts"
         )
 
-content = generate_content(
-    product_name=title,
-    artist=vendor,
-    category=category,
-    materials="Unknown Materials",
-    vendor_description="",
-    collection_recommendation=collection
-)
-
-short_description = (
-    content["short_description"]
-)
-
-long_description = (
-    content["long_description"]
-)
-
-meta_description = (
-    content["meta_description"]
-)
-
     # --------------------------------------
-    # SAVE VALUES
+    # CONTENT GENERATION
     # --------------------------------------
 
-    df.at[index, "AI_Collection"] = (
-        collection
+    short_description = (
+        f"{title} by {vendor} combines artistic "
+        f"expression and thoughtful craftsmanship, "
+        f"making it a distinctive addition to any "
+        f"collection."
     )
 
-    df.at[index, "AI_Keywords"] = (
-        keywords
-    )
-
-    df.at[index, "AI_Cross_Sells"] = (
-        cross_sells
-    )
-
-    df.at[index, "AI_Gift_Guide"] = (
-        gift_guide
-    )
-
-    df.at[index, "AI_Short_Description"] = (
-        short_description
-    )
-
-    df.at[index, "AI_Long_Description"] = (
-        long_description
-    )
-
-    df.at[index, "AI_Meta_Description"] = (
-        meta_description
-    )
-
-# ==========================================
-# SAVE CSV
-# ==========================================
-
-os.makedirs(
-    "reports/shopify_exports",
-    exist_ok=True
-)
-
-df.to_csv(
-    OUTPUT_FILE,
-    index=False
-)
-
-print(
-    f"Enriched CSV created: {OUTPUT_FILE}"
-)
-from scripts.content_generator import (
-    generate_content
-)
+    long_description = (
+        f"{title} showcases the creative vision of "
+        f"{vendor}. Inspired by artistic excellence "
+        f"and museum-quality design, this "
+        f"{category} offers a meaningful way to "
+        f"bring creativity into everyday life. "
+        f"Whether purchased as a gift or for a "
+        f"personal collection, it reflects the "
+    
