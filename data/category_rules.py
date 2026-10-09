@@ -261,4 +261,62 @@ CATEGORY_RULES = {
         "keywords": [
             "home decor",
             "design object",
-            
+            "modern decor",
+            "museum design",
+            "stylish home"
+        ],
+        "cross_sells": [
+            "Desk items",
+            "Decorative objects",
+            "Design books"
+        ]
+    },
+
+    "desk items": {
+        "collection": "Creative Workspace",
+        "keywords": [
+            "desk accessories",
+            "office decor",
+            "creative workspace",
+            "museum gift",
+            "design accessories"
+        ],
+        "cross_sells": [
+            "Books",
+            "Journals",
+            "Home decor"
+        ]
+    },
+
+    "kids gifts": {
+        "collection": "Family Favorites",
+        "keywords": [
+            "kids gifts",
+            "educational toys",
+            "creative activities",
+            "museum kids",
+            "learning through art"
+        ],
+        "cross_sells": [
+            "Art supplies",
+            "Books",
+            "Educational games"
+        ]
+    },
+
+    "art supplies": {
+        "collection": "Creative Studio",
+        "keywords": [
+            "artist supplies",
+            "creative tools",
+            "art materials",
+            "museum creativity",
+            "studio supplies"
+        ],
+        "cross_sells": [
+            "Sketchbooks",
+            "Books",
+            "Desk items"
+        ]
+    }
+}
