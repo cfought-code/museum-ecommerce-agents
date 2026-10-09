@@ -6,6 +6,7 @@ def generate_content(
     vendor_description,
     collection_recommendation
 ):
+
     shopify_title = (
         f"{product_name} by {artist}"
     )
@@ -17,17 +18,17 @@ def generate_content(
         f"gift and a striking addition to any collection."
     )
 
-    long_description = f"""
-{product_name} showcases the creative vision of {artist}. Crafted from
-{materials}, this museum-quality {category.lower()} blends artistic
-expression with everyday enjoyment.
-
-{vendor_description}
-
-Whether displayed at home, in an office, or given as a thoughtful gift,
-this piece reflects the museum store tradition of offering meaningful
-objects that inspire curiosity, creativity, and appreciation for design.
-"""
+    long_description = (
+        f"{product_name} showcases the creative vision of "
+        f"{artist}. Crafted from {materials}, this museum-quality "
+        f"{category.lower()} blends artistic expression with "
+        f"everyday enjoyment. "
+        f"{vendor_description} "
+        f"Whether displayed at home, in an office, or given as "
+        f"a thoughtful gift, this piece reflects the museum store "
+        f"tradition of offering meaningful objects that inspire "
+        f"curiosity, creativity, and appreciation for design."
+    )
 
     meta_description = (
         f"Discover {product_name} by {artist}. "
