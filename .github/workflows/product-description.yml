@@ -28,36 +28,59 @@ on:
         required: true
         type: string
 
+      collection:
+        description: "Collection"
+        required: false
+        type: string
+
+      price:
+        description: "Price"
+        required: false
+        type: string
+
+      dimensions:
+        description: "Dimensions"
+        required: false
+        type: string
+
+      product_url:
+        description: "Product URL"
+        required: false
+        type: string
+
 jobs:
   generate-description:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Generate Report
+      - name: Generate Product Report
         run: |
           mkdir -p reports/products
 
           cat > reports/products/product-description-report.md << EOF
-          # Product Description Report
+          # Product Description Agent Report
 
-          ## Product Name
+          ## Product Information
 
-          ${{ github.event.inputs.product_name }}
+          **Product Name:** ${{ github.event.inputs.product_name }}
 
-          ## Artist / Designer
+          **Artist:** ${{ github.event.inputs.artist }}
 
-          ${{ github.event.inputs.artist }}
+          **Category:** ${{ github.event.inputs.category }}
 
-          ## Category
+          **Materials:** ${{ github.event.inputs.materials }}
 
-          ${{ github.event.inputs.category }}
+          **Collection:** ${{ github.event.inputs.collection }}
 
-          ## Materials
+          **Price:** ${{ github.event.inputs.price }}
 
-          ${{ github.event.inputs.materials }}
+          **Dimensions:** ${{ github.event.inputs.dimensions }}
+
+          **Product URL:** ${{ github.event.inputs.product_url }}
+
+          ---
 
           ## Vendor Description
 
@@ -65,29 +88,67 @@ jobs:
 
           ---
 
-          ## Suggested Shopify Description
+          ## Suggested Shopify Product Title
 
-          Crafted from ${{ github.event.inputs.materials }}, this thoughtfully designed piece showcases the creative vision of ${{ github.event.inputs.artist }}. Ideal for collectors, design enthusiasts, and museum-store shoppers, ${{ github.event.inputs.product_name }} brings art and craftsmanship into everyday life.
+          ${{ github.event.inputs.product_name }} by ${{ github.event.inputs.artist }}
+
+          ---
+
+          ## Short Description
+
+          A thoughtfully designed piece that combines creativity, craftsmanship, and museum-quality appeal. Perfect for collectors, gift-givers, and design enthusiasts.
+
+          ---
+
+          ## Long Description
+
+          Crafted from ${{ github.event.inputs.materials }}, ${{ github.event.inputs.product_name }} showcases the distinctive design approach of ${{ github.event.inputs.artist }}. Inspired by artistic expression and quality craftsmanship, this piece adds character and visual interest to any home, office, or collection. Its combination of form, function, and design makes it an excellent gift and a memorable addition to a museum-store assortment.
+
+          ---
 
           ## SEO Meta Description
 
-          Discover ${{ github.event.inputs.product_name }} by ${{ github.event.inputs.artist }}, crafted from ${{ github.event.inputs.materials }} and perfect for design-focused living.
+          Discover ${{ github.event.inputs.product_name }} by ${{ github.event.inputs.artist }}. Museum-quality design crafted from ${{ github.event.inputs.materials }}.
 
-          ## Suggested Shopify Tags
+          ---
+
+          ## Suggested Tags
 
           - museum store
-          - art gift
+          - artist made
           - design
+          - gift
           - collectible
           - ${{ github.event.inputs.category }}
+
+          ---
 
           ## Suggested Keywords
 
           - museum gift
           - artist designed
-          - home decor
-          - unique gift
           - contemporary design
+          - unique gift
+          - home decor
+          - collectible art
+
+          ---
+
+          ## Gift Guide Category
+
+          - Gifts for Art Lovers
+          - Home Decor
+          - Museum Favorites
+
+          ---
+
+          ## Cross-Sell Opportunities
+
+          - Artist books
+          - Design objects
+          - Decorative mobiles
+          - Desk accessories
+          - Museum-exclusive gifts
 
           EOF
 
