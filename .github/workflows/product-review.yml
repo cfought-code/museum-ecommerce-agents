@@ -1,0 +1,29 @@
+name: Product Review Agent
+
+on:
+  workflow_dispatch:
+
+jobs:
+  product-review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create Product Audit Report
+        run: |
+          mkdir -p reports/products
+
+          echo "# Product Review Report" > reports/products/product-review.md
+          echo "" >> reports/products/product-review.md
+          echo "Product URL Reviewed:" >> reports/products/product-review.md
+          echo "https://store.toledomuseum.org/" >> reports/products/product-review.md
+          echo "" >> reports/products/product-review.md
+          echo "Future versions will generate automated recommendations." >> reports/products/product-review.md
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: product-review-report
+          path: reports/products/product-review.md
