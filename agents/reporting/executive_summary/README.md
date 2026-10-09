@@ -2,27 +2,26 @@
 
 ## Purpose
 
-The Executive Summary Agent transforms information generated across the repository into concise leadership-ready reports.
+The Executive Summary Agent transforms reports generated across the repository into concise leadership-ready briefings.
 
 ## Inputs
 
-- SEO reports
-- AEO reports
-- Market research
-- Competitor intelligence
-- Product opportunity reports
-- Analytics data
+- SEO Audit Reports
+- Market Research Reports
+- Competitor Reports
+- Product Reports
+- Artist Reports
 
 ## Outputs
 
-- Weekly intelligence summaries
-- Leadership briefings
-- Action-item reports
-- Strategic recommendations
+- Weekly Intelligence Briefs
+- Strategic Recommendations
+- Leadership Summaries
+- Action Plans
 
 ## Future Enhancements
 
-- Automated report generation
-- Scheduled reporting
-- Trend monitoring
+- Automated report aggregation
+- Trend analysis
 - Priority scoring
+- Executive dashboards
