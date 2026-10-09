@@ -18,6 +18,16 @@ on:
         required: true
         type: string
 
+      materials:
+        description: "Materials"
+        required: true
+        type: string
+
+      vendor_description:
+        description: "Vendor Description"
+        required: true
+        type: string
+
 jobs:
   generate-description:
     runs-on: ubuntu-latest
@@ -45,30 +55,39 @@ jobs:
 
           ${{ github.event.inputs.category }}
 
-          ## Shopify Product Description
+          ## Materials
 
-          This product combines artistic craftsmanship with thoughtful design, making it a distinctive addition to any collection. Inspired by museum-quality aesthetics, it offers a unique way to bring creativity and design into everyday life.
+          ${{ github.event.inputs.materials }}
+
+          ## Vendor Description
+
+          ${{ github.event.inputs.vendor_description }}
+
+          ---
+
+          ## Suggested Shopify Description
+
+          Crafted from ${{ github.event.inputs.materials }}, this thoughtfully designed piece showcases the creative vision of ${{ github.event.inputs.artist }}. Ideal for collectors, design enthusiasts, and museum-store shoppers, ${{ github.event.inputs.product_name }} brings art and craftsmanship into everyday life.
 
           ## SEO Meta Description
 
-          Discover ${{ github.event.inputs.product_name }}, a museum-quality piece by ${{ github.event.inputs.artist }} designed to inspire and delight.
+          Discover ${{ github.event.inputs.product_name }} by ${{ github.event.inputs.artist }}, crafted from ${{ github.event.inputs.materials }} and perfect for design-focused living.
 
           ## Suggested Shopify Tags
 
           - museum store
+          - art gift
           - design
-          - gift
-          - art
           - collectible
           - ${{ github.event.inputs.category }}
 
           ## Suggested Keywords
 
           - museum gift
-          - unique design
-          - artist made
+          - artist designed
           - home decor
-          - creative gift
+          - unique gift
+          - contemporary design
 
           EOF
 
