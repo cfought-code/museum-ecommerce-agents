@@ -1,0 +1,37 @@
+name: Executive Summary Agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      reporting_period:
+        description: "Reporting Period"
+        required: true
+        type: string
+
+jobs:
+  generate-summary:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Generate Executive Summary
+        env:
+          REPORTING_PERIOD: ${{ github.event.inputs.reporting_period }}
+
+        run: |
+          python -m scripts.executive_summary_agent
+
+      - name: Upload Executive Summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: executive-summary
+          path: reports/executive/executive-summary.md
