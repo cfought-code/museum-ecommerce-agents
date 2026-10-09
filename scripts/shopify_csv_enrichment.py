@@ -3,8 +3,10 @@ import pandas as pd
 
 from data.category_rules import CATEGORY_RULES
 
+print("Starting Shopify CSV Enrichment...")
+
 # ==========================================
-# FILES
+# FILE PATHS
 # ==========================================
 
 INPUT_FILE = "data/shopify/products.csv"
@@ -14,13 +16,15 @@ OUTPUT_FILE = (
 )
 
 # ==========================================
-# LOAD CSV
+# LOAD PRODUCTS
 # ==========================================
 
 df = pd.read_csv(INPUT_FILE)
 
+print(f"Loaded {len(df)} products")
+
 # ==========================================
-# NEW COLUMNS
+# NEW AI COLUMNS
 # ==========================================
 
 df["AI_Collection"] = ""
@@ -32,12 +36,14 @@ df["AI_Long_Description"] = ""
 df["AI_Meta_Description"] = ""
 
 # ==========================================
-# ENRICH PRODUCTS
+# PROCESS PRODUCTS
 # ==========================================
 
 for index, row in df.iterrows():
 
-    title = str(row.get("Title", "")).strip()
+    title = str(
+        row.get("Title", "")
+    ).strip()
 
     category = str(
         row.get("Type", "")
@@ -54,17 +60,17 @@ for index, row in df.iterrows():
             str(
                 row.get(
                     "Variant Price",
-                    "0"
+                    0
                 )
             )
             .replace("$", "")
             .replace(",", "")
         )
-    except:
+    except Exception:
         pass
 
     # --------------------------------------
-    # CATEGORY RULES
+    # CATEGORY RULE LOOKUP
     # --------------------------------------
 
     rule = CATEGORY_RULES.get(category)
@@ -73,32 +79,30 @@ for index, row in df.iterrows():
 
         collection = rule["collection"]
 
-        keywords_list = rule["keywords"]
+        keywords = ", ".join(
+            rule["keywords"]
+        )
 
-        cross_sells_list = rule["cross_sells"]
+        cross_sells = ", ".join(
+            rule["cross_sells"]
+        )
 
     else:
 
-        collection = "Museum Favorites"
+        collection = (
+            "Museum Favorites"
+        )
 
-        keywords_list = [
-            "museum gift",
-            "art inspired",
-            "artist made",
-            "design object"
-        ]
+        keywords = (
+            "museum gift, art inspired, artist made"
+        )
 
-        cross_sells_list = [
-            "Museum publications",
-            "Design books"
-        ]
-
-    keywords = ", ".join(keywords_list)
-
-    cross_sells = ", ".join(cross_sells_list)
+        cross_sells = (
+            "Museum publications, Design books"
+        )
 
     # --------------------------------------
-    # GIFT GUIDE
+    # GIFT GUIDE LOGIC
     # --------------------------------------
 
     if price < 30:
@@ -147,3 +151,57 @@ for index, row in df.iterrows():
         f"A museum-quality {category} ideal for "
         f"collecting, gifting, and everyday inspiration."
     )
+
+    # --------------------------------------
+    # SAVE ENRICHED VALUES
+    # --------------------------------------
+
+    df.at[index, "AI_Collection"] = (
+        collection
+    )
+
+    df.at[index, "AI_Keywords"] = (
+        keywords
+    )
+
+    df.at[index, "AI_Cross_Sells"] = (
+        cross_sells
+    )
+
+    df.at[index, "AI_Gift_Guide"] = (
+        gift_guide
+    )
+
+    df.at[index, "AI_Short_Description"] = (
+        short_description
+    )
+
+    df.at[index, "AI_Long_Description"] = (
+        long_description
+    )
+
+    df.at[index, "AI_Meta_Description"] = (
+        meta_description
+    )
+
+# ==========================================
+# SAVE OUTPUT
+# ==========================================
+
+os.makedirs(
+    "reports/shopify_exports",
+    exist_ok=True
+)
+
+print(f"Writing file: {OUTPUT_FILE}")
+
+df.to_csv(
+    OUTPUT_FILE,
+    index=False
+)
+
+print("CSV written successfully")
+
+print(
+    f"Enriched CSV created: {OUTPUT_FILE}"
+)
