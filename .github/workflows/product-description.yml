@@ -89,7 +89,7 @@ jobs:
 
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add reports/intelligence/products/
+          git add -f reports/intelligence/products/
 
           git diff --cached --quiet || git commit -m "Archive product intelligence"
 
@@ -100,3 +100,9 @@ jobs:
         with:
           name: product-description-report
           path: reports/products/product-description-report.md
+
+      - name: Upload Product Intelligence Archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: product-intelligence-archive
+          path: reports/intelligence/products/
