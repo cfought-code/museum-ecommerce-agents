@@ -73,21 +73,29 @@ else:
 
 gift_categories = []
 
-price_value = 0
+price_value = None
 
 try:
 
-    price_value = float(
-        price.replace("$", "")
-        .replace(",", "")
-        .strip()
-    )
+    if price and price.strip():
+
+        price_value = float(
+            price.replace("$", "")
+            .replace(",", "")
+            .strip()
+        )
 
 except ValueError:
 
-    pass
+    price_value = None
 
-if price_value < 30:
+if price_value is None:
+
+    gift_categories.append(
+        "Price Not Provided"
+    )
+
+elif price_value < 30:
 
     gift_categories.append(
         "Stocking Stuffers"
