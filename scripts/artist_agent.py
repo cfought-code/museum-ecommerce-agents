@@ -126,20 +126,32 @@ Generated:
 ## SEO Meta Description
 
 {seo_description}
-
 """
 
 # ==========================================
-# SAVE REPORT
+# OUTPUT FILES
+# ==========================================
+
+timestamp = datetime.now().strftime(
+    "%Y-%m-%d"
+)
+
+output_file = (
+    "reports/artists/artist-report.md"
+)
+
+archive_file = (
+    f"reports/intelligence/artists/"
+    f"{timestamp}-artist-report.md"
+)
+
+# ==========================================
+# SAVE CURRENT REPORT
 # ==========================================
 
 os.makedirs(
     "reports/artists",
     exist_ok=True
-)
-
-output_file = (
-    "reports/artists/artist-report.md"
 )
 
 with open(
@@ -150,6 +162,31 @@ with open(
 
     file.write(report)
 
+# ==========================================
+# SAVE ARCHIVE REPORT
+# ==========================================
+
+os.makedirs(
+    "reports/intelligence/artists",
+    exist_ok=True
+)
+
+with open(
+    archive_file,
+    "w",
+    encoding="utf-8"
+) as file:
+
+    file.write(report)
+
+# ==========================================
+# LOGGING
+# ==========================================
+
 print(
-    f"Artist report generated: {output_file}"
+    f"Current report created: {output_file}"
+)
+
+print(
+    f"Archive report created: {archive_file}"
 )
