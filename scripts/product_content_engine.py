@@ -2,10 +2,7 @@ from datetime import datetime
 import os
 
 from data.category_rules import CATEGORY_RULES
-
-from scripts.content_generator import (
-    generate_content
-)
+from scripts.content_generator import generate_content
 
 # ==========================================
 # INPUTS
@@ -30,10 +27,17 @@ category_lower = category.lower().strip()
 rule = CATEGORY_RULES.get(category_lower)
 
 if rule:
+
     keywords = rule["keywords"]
+
     cross_sells = rule["cross_sells"]
-    collection_recommendation = rule["collection"]
+
+    collection_recommendation = (
+        rule["collection"]
+    )
+
 else:
+
     keywords = [
         "museum gift",
         "art inspired",
@@ -48,7 +52,9 @@ else:
     ]
 
     collection_recommendation = (
-        collection if collection else "Museum Favorites"
+        collection
+        if collection
+        else "Museum Favorites"
     )
 
 # ==========================================
@@ -60,41 +66,38 @@ gift_categories = []
 price_value = 0
 
 try:
+
     price_value = float(
-        price.replace("$", "").replace(",", "").strip()
+        price.replace("$", "")
+        .replace(",", "")
+        .strip()
     )
+
 except ValueError:
+
     pass
 
 if price_value < 30:
-    gift_categories.append("Stocking Stuffers")
+
+    gift_categories.append(
+        "Stocking Stuffers"
+    )
 
 elif price_value < 75:
-    gift_categories.append("Gifts Under $75")
+
+    gift_categories.append(
+        "Gifts Under $75"
+    )
 
 else:
-    gift_categories.append("Premium Gifts")
 
-gift_categories.append("Museum Favorites")
-
-# ==========================================
-# SPECIAL MESSAGING
-# ==========================================
-
-exclusive_message = ""
-
-if "museum" in category_lower:
-    exclusive_message = (
-        "Available through the Toledo Museum of Art Store, "
-        "this item reflects the museum's commitment to art, "
-        "education, and creativity."
+    gift_categories.append(
+        "Premium Gifts"
     )
 
-elif "exhibition" in category_lower:
-    exclusive_message = (
-        "Inspired by the Toledo Museum of Art exhibition program, "
-        "this item extends the visitor experience beyond the gallery."
-    )
+gift_categories.append(
+    "Museum Favorites"
+)
 
 # ==========================================
 # CONTENT GENERATION
@@ -109,21 +112,32 @@ content = generate_content(
     collection_recommendation=collection_recommendation
 )
 
-shopify_title = content["shopify_title"]
+shopify_title = (
+    content["shopify_title"]
+)
 
-short_description = content["short_description"]
+short_description = (
+    content["short_description"]
+)
 
-long_description = content["long_description"]
+long_description = (
+    content["long_description"]
+)
 
-meta_description = content["meta_description"]
+meta_description = (
+    content["meta_description"]
+)
 
 # ==========================================
-# REPORT GENERATION
+# BUILD REPORT
 # ==========================================
 
 report = f"""# Product Description Agent Report
 
-Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+Generated:
+{datetime.now()}
+
+---
 
 ## Product Information
 
@@ -178,30 +192,48 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 ---
 
 ## Suggested Keywords
-
 """
 
 for keyword in keywords:
-    report += f"- {keyword}\n"
 
-report += "\n---\n\n## Gift Guide Categories\n\n"
+    report += f"\n- {keyword}"
+
+report += "\n\n---\n\n## Gift Guide Categories\n"
 
 for gift in gift_categories:
-    report += f"- {gift}\n"
 
-report += "\n---\n\n## Cross-Sell Opportunities\n\n"
+    report += f"\n- {gift}"
+
+report += "\n\n---\n\n## Cross-Sell Opportunities\n"
 
 for item in cross_sells:
-    report += f"- {item}\n"
+
+    report += f"\n- {item}"
 
 # ==========================================
-# SAVE REPORT
+# OUTPUT FILES
 # ==========================================
 
-os.makedirs("reports/products", exist_ok=True)
+timestamp = datetime.now().strftime(
+    "%Y-%m-%d"
+)
 
 output_file = (
     "reports/products/product-description-report.md"
+)
+
+archive_file = (
+    f"reports/intelligence/products/"
+    f"{timestamp}-product-report.md"
+)
+
+# ==========================================
+# SAVE CURRENT REPORT
+# ==========================================
+
+os.makedirs(
+    "reports/products",
+    exist_ok=True
 )
 
 with open(
@@ -209,9 +241,30 @@ with open(
     "w",
     encoding="utf-8"
 ) as file:
+
+    file.write(report)
+
+# ==========================================
+# SAVE ARCHIVE REPORT
+# ==========================================
+
+os.makedirs(
+    "reports/intelligence/products",
+    exist_ok=True
+)
+
+with open(
+    archive_file,
+    "w",
+    encoding="utf-8"
+) as file:
+
     file.write(report)
 
 print(
-    f"Product Description Report generated successfully: "
-    f"{output_file}"
+    f"Current report created: {output_file}"
+)
+
+print(
+    f"Archive report created: {archive_file}"
 )
