@@ -1,5 +1,8 @@
 name: Product Description Agent
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
     inputs:
@@ -50,10 +53,13 @@ on:
 
 jobs:
   generate-description:
+
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -74,6 +80,20 @@ jobs:
 
         run: |
           python -m scripts.product_content_engine
+
+      - name: Commit Product Intelligence Archive
+
+        run: |
+
+          git config --global user.name "github-actions[bot]"
+
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add reports/intelligence/products/
+
+          git diff --cached --quiet || git commit -m "Archive product intelligence"
+
+          git push
 
       - name: Upload Product Report
         uses: actions/upload-artifact@v4
