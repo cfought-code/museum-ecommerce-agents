@@ -53,19 +53,19 @@ def get_report_contents(folder):
 
 
 # ==========================================
-# LOAD REPORTS
+# LOAD ARCHIVED INTELLIGENCE
 # ==========================================
 
 product_reports = get_report_contents(
-    "reports/products"
+    "reports/intelligence/products"
 )
 
 artist_reports = get_report_contents(
-    "reports/artists"
+    "reports/intelligence/artists"
 )
 
 market_reports = get_report_contents(
-    "reports/market"
+    "reports/intelligence/market"
 )
 
 # ==========================================
@@ -163,9 +163,7 @@ if activity_score >= 20:
 # ==========================================
 
 agent_count = 7
-
 workflow_count = 7
-
 intelligence_library_count = 4
 
 repository_health_score = (
@@ -191,47 +189,80 @@ if repository_health_score >= 20:
 
 recommendations = []
 
-if theme_counts.get("Glass Art", 0) > 0:
+if theme_counts.get(
+    "Glass Art",
+    0
+) > 0:
+
     recommendations.append(
         "Continue expanding Studio Glass and glass-focused merchandising."
     )
 
-if theme_counts.get("Artist Storytelling", 0) > 0:
+if theme_counts.get(
+    "Artist Storytelling",
+    0
+) > 0:
+
     recommendations.append(
         "Increase artist-focused content across product and collection pages."
     )
 
-if theme_counts.get("Designer Jewelry", 0) > 0:
+if theme_counts.get(
+    "Designer Jewelry",
+    0
+) > 0:
+
     recommendations.append(
         "Promote wearable art and designer jewelry in gifting campaigns."
     )
 
-if theme_counts.get("Holiday Opportunities", 0) > 0:
+if theme_counts.get(
+    "Holiday Opportunities",
+    0
+) > 0:
+
     recommendations.append(
         "Review seasonal merchandising and holiday gift opportunities."
     )
 
-if theme_counts.get("Competitor Intelligence", 0) > 0:
+if theme_counts.get(
+    "Competitor Intelligence",
+    0
+) > 0:
+
     recommendations.append(
-        "Evaluate competitor trends for new product and merchandising opportunities."
+        "Evaluate competitor trends for new product opportunities."
     )
 
-if theme_counts.get("Collection Development", 0) > 0:
+if theme_counts.get(
+    "Collection Development",
+    0
+) > 0:
+
     recommendations.append(
         "Review assortment strategy and collection placement opportunities."
     )
 
-if theme_counts.get("Museum Exclusives", 0) > 0:
+if theme_counts.get(
+    "Museum Exclusives",
+    0
+) > 0:
+
     recommendations.append(
         "Consider additional promotion of Museum Exclusive merchandise."
     )
 
-if theme_counts.get("Exhibitions", 0) > 0:
+if theme_counts.get(
+    "Exhibitions",
+    0
+) > 0:
+
     recommendations.append(
-        "Develop exhibition-related merchandising and storytelling opportunities."
+        "Develop exhibition-related merchandising opportunities."
     )
 
 if not recommendations:
+
     recommendations.append(
         "Continue generating reports to expand intelligence coverage."
     )
@@ -285,143 +316,161 @@ business_areas = {
 # BUILD REPORT
 # ==========================================
 
-report_lines = []
+lines = []
 
-report_lines.append("# Museum Store Intelligence Brief")
-report_lines.append("")
-report_lines.append(f"Generated: {datetime.now()}")
-report_lines.append("")
-report_lines.append(f"Reporting Period: {reporting_period}")
-report_lines.append("")
-report_lines.append("---")
-report_lines.append("")
-report_lines.append("# Executive Summary")
-report_lines.append("")
-report_lines.append(
+lines.append("# Museum Store Intelligence Brief")
+lines.append("")
+lines.append(f"Generated: {datetime.now()}")
+lines.append("")
+lines.append(f"Reporting Period: {reporting_period}")
+lines.append("")
+lines.append("---")
+lines.append("")
+lines.append("# Executive Summary")
+lines.append("")
+lines.append(
     "This briefing summarizes themes, opportunities, strategic recommendations, and repository health across the Museum Ecommerce Agents platform."
 )
 
-report_lines.append("")
-report_lines.append("---")
-report_lines.append("")
-report_lines.append("# Reports Reviewed")
-report_lines.append("")
-report_lines.append(f"Product Reports: {len(product_reports)}")
-report_lines.append(f"Artist Reports: {len(artist_reports)}")
-report_lines.append(f"Market Reports: {len(market_reports)}")
+lines.append("")
+lines.append("---")
+lines.append("")
+lines.append("# Reports Reviewed")
+lines.append("")
+lines.append(f"Product Reports: {len(product_reports)}")
+lines.append(f"Artist Reports: {len(artist_reports)}")
+lines.append(f"Market Reports: {len(market_reports)}")
 
-report_lines.append("")
-report_lines.append("---")
-report_lines.append("")
-report_lines.append("# Executive Dashboard")
-report_lines.append("")
-report_lines.append(f"Repository Activity Score: {activity_score}")
-report_lines.append(f"Intelligence Rating: {intelligence_rating}")
-report_lines.append(f"Opportunity Score: {opportunity_score}")
+lines.append("")
+lines.append("---")
+lines.append("")
+lines.append("# Executive Dashboard")
+lines.append("")
+lines.append(f"Repository Activity Score: {activity_score}")
+lines.append(f"Intelligence Rating: {intelligence_rating}")
+lines.append(f"Opportunity Score: {opportunity_score}")
 
-report_lines.append("")
-report_lines.append("---")
-report_lines.append("")
-report_lines.append("# Repository Health")
-report_lines.append("")
-report_lines.append(f"Agents Implemented: {agent_count}")
-report_lines.append(f"Workflows Implemented: {workflow_count}")
-report_lines.append(f"Intelligence Libraries: {intelligence_library_count}")
-report_lines.append(f"Repository Health Score: {repository_health_score}")
-report_lines.append(f"Repository Maturity: {repository_maturity}")
+lines.append("")
+lines.append("---")
+lines.append("")
+lines.append("# Repository Health")
+lines.append("")
+lines.append(f"Agents Implemented: {agent_count}")
+lines.append(f"Workflows Implemented: {workflow_count}")
+lines.append(f"Intelligence Libraries: {intelligence_library_count}")
+lines.append(f"Repository Health Score: {repository_health_score}")
+lines.append(f"Repository Maturity: {repository_maturity}")
 
-report_lines.append("")
-report_lines.append("---")
-report_lines.append("")
-report_lines.append("# Top Themes")
-report_lines.append("")
+lines.append("")
+lines.append("---")
+lines.append("")
+lines.append("# Top Themes")
+lines.append("")
 
 if top_themes:
-    report_lines.extend(top_themes)
+    lines.extend(top_themes)
 else:
-    report_lines.append("No recurring themes identified.")
+    lines.append("No recurring themes identified.")
 
-report_lines.append("")
-report_lines.append("---")
-report_lines.append("")
-report_lines.append("# Strategic Priorities")
-report_lines.append("")
+lines.append("")
+lines.append("---")
+lines.append("")
+lines.append("# Strategic Priorities")
+lines.append("")
 
-for idx, item in enumerate(top_five, start=1):
-    report_lines.append(
-        f"{idx}. {item['theme']} ({item['count']} references)"
+for index, item in enumerate(
+    top_five,
+    start=1
+):
+    lines.append(
+        f"{index}. "
+        f"{item['theme']} "
+        f"({item['count']} references)"
     )
 
-report_lines.append("")
-report_lines.append("---")
-report_lines.append("")
-report_lines.append("# Strategic Recommendations")
-report_lines.append("")
+lines.append("")
+lines.append("---")
+lines.append("")
+lines.append("# Strategic Recommendations")
+lines.append("")
 
-for idx, recommendation in enumerate(
+for index, item in enumerate(
     recommendations,
     start=1
 ):
-    report_lines.append(
-        f"{idx}. {recommendation}"
+    lines.append(
+        f"{index}. {item}"
     )
 
-report_lines.append("")
-report_lines.append("---")
-report_lines.append("")
-report_lines.append("# Business Area Coverage")
-report_lines.append("")
+lines.append("")
+lines.append("---")
+lines.append("")
+lines.append("# Business Area Coverage")
+lines.append("")
 
 for area, score in business_areas.items():
-    report_lines.append(
+
+    lines.append(
         f"- {area}: {score} references"
     )
 
-report_lines.append("")
-report_lines.append("---")
-report_lines.append("")
-report_lines.append("# Intelligence Repository")
-report_lines.append("")
-report_lines.append(
-    "Future intelligence is archived under reports/intelligence/"
+lines.append("")
+lines.append("---")
+lines.append("")
+lines.append("# Intelligence Repository")
+lines.append("")
+lines.append(
+    "Historical intelligence is sourced from archived reports located under reports/intelligence/."
 )
 
-report_lines.append("")
-report_lines.append("---")
-report_lines.append("")
-report_lines.append("# Competitor Monitoring")
-report_lines.append("")
-report_lines.append("- Corning Museum of Glass")
-report_lines.append("- MCA Chicago Store")
-report_lines.append("- Museum of Glass Store")
-report_lines.append("- Artful Home")
+lines.append("")
+lines.append("---")
+lines.append("")
+lines.append("# Competitor Monitoring")
+lines.append("")
+lines.append("- Corning Museum of Glass")
+lines.append("- MCA Chicago Store")
+lines.append("- Museum of Glass Store")
+lines.append("- Artful Home")
 
-report_lines.append("")
-report_lines.append("---")
-report_lines.append("")
-report_lines.append("# Leadership Summary")
-report_lines.append("")
-report_lines.append(
+lines.append("")
+lines.append("---")
+lines.append("")
+lines.append("# Leadership Summary")
+lines.append("")
+lines.append(
     "The Museum Ecommerce Agents platform is actively generating merchandising, artist, and market intelligence."
 )
-
-report_lines.append(
-    "Continued report generation will improve trend detection, category analysis, and recommendation quality over time."
+lines.append(
+    "Continued report generation will improve trend detection and recommendation quality over time."
 )
 
+report = "\n".join(lines)
+
 # ==========================================
-# SAVE REPORT
+# OUTPUT FILES
 # ==========================================
 
-report = "\n".join(report_lines)
-
-os.makedirs(
-    "reports/executive",
-    exist_ok=True
+timestamp = datetime.now().strftime(
+    "%Y-%m-%d"
 )
 
 output_file = (
     "reports/executive/executive-summary.md"
+)
+
+archive_file = (
+    f"reports/intelligence/executive/"
+    f"{timestamp}-executive-summary.md"
+)
+
+# ==========================================
+# SAVE CURRENT REPORT
+# ==========================================
+
+os.makedirs(
+    "reports/executive",
+    exist_ok=True
 )
 
 with open(
@@ -432,6 +481,31 @@ with open(
 
     file.write(report)
 
+# ==========================================
+# SAVE ARCHIVE REPORT
+# ==========================================
+
+os.makedirs(
+    "reports/intelligence/executive",
+    exist_ok=True
+)
+
+with open(
+    archive_file,
+    "w",
+    encoding="utf-8"
+) as file:
+
+    file.write(report)
+
+# ==========================================
+# LOGGING
+# ==========================================
+
 print(
-    f"Executive summary created: {output_file}"
+    f"Current report created: {output_file}"
+)
+
+print(
+    f"Archive report created: {archive_file}"
 )
