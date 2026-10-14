@@ -5,25 +5,67 @@ on:
 
 jobs:
   competitor-scan:
+
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
 
-      - name: Generate Competitor Report
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create Competitor Report
         run: |
+
+          TIMESTAMP=$(date +%F)
+
           mkdir -p reports/market
+          mkdir -p reports/intelligence/market
 
           echo "# Competitor Intelligence Report" > reports/market/competitor-report.md
           echo "" >> reports/market/competitor-report.md
-          echo "Competitors Reviewed:" >> reports/market/competitor-report.md
+          echo "Generated: $(date)" >> reports/market/competitor-report.md
+          echo "" >> reports/market/competitor-report.md
+
+          echo "## Competitors Reviewed" >> reports/market/competitor-report.md
+          echo "" >> reports/market/competitor-report.md
+
           echo "- Corning Museum of Glass Shops" >> reports/market/competitor-report.md
           echo "- MCA Chicago Store" >> reports/market/competitor-report.md
           echo "- Museum of Glass Store" >> reports/market/competitor-report.md
           echo "- Artful Home" >> reports/market/competitor-report.md
 
-      - name: Upload Report
+          echo "" >> reports/market/competitor-report.md
+          echo "## Strategic Focus Areas" >> reports/market/competitor-report.md
+          echo "" >> reports/market/competitor-report.md
+
+          echo "- Product assortment" >> reports/market/competitor-report.md
+          echo "- Artist storytelling" >> reports/market/competitor-report.md
+          echo "- Seasonal merchandising" >> reports/market/competitor-report.md
+          echo "- Pricing observations" >> reports/market/competitor-report.md
+
+          echo "" >> reports/market/competitor-report.md
+          echo "## Opportunities" >> reports/market/competitor-report.md
+          echo "" >> reports/market/competitor-report.md
+
+          echo "- Monitor glass artwork trends" >> reports/market/competitor-report.md
+          echo "- Expand artist storytelling" >> reports/market/competitor-report.md
+          echo "- Evaluate gifting categories" >> reports/market/competitor-report.md
+
+          cp \
+          reports/market/competitor-report.md \
+          reports/intelligence/market/${TIMESTAMP}-competitor-report.md
+
+          echo "Archive report created:"
+          echo "reports/intelligence/market/${TIMESTAMP}-competitor-report.md"
+
+      - name: Upload Competitor Report
         uses: actions/upload-artifact@v4
         with:
           name: competitor-report
           path: reports/market/competitor-report.md
+
+      - name: Upload Competitor Intelligence Archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: competitor-intelligence-archive
+          path: reports/intelligence/market/
