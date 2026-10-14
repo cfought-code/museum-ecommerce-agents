@@ -96,7 +96,7 @@ for theme, keywords in EXECUTIVE_THEMES.items():
 
 sorted_themes = sorted(
     theme_counts.items(),
-    key=lambda x: x[1],
+    key=lambda item: item[1],
     reverse=True
 )
 
@@ -134,16 +134,12 @@ for theme, count in sorted_themes:
 top_five = priority_themes[:5]
 
 # ==========================================
-# OPPORTUNITY SCORE
+# SCORES
 # ==========================================
 
 opportunity_score = sum(
     theme_counts.values()
 )
-
-# ==========================================
-# ACTIVITY SCORING
-# ==========================================
 
 activity_score = (
     len(product_reports)
@@ -195,80 +191,47 @@ if repository_health_score >= 20:
 
 recommendations = []
 
-if theme_counts.get(
-    "Glass Art",
-    0
-) > 0:
-
+if theme_counts.get("Glass Art", 0) > 0:
     recommendations.append(
         "Continue expanding Studio Glass and glass-focused merchandising."
     )
 
-if theme_counts.get(
-    "Artist Storytelling",
-    0
-) > 0:
-
+if theme_counts.get("Artist Storytelling", 0) > 0:
     recommendations.append(
         "Increase artist-focused content across product and collection pages."
     )
 
-if theme_counts.get(
-    "Designer Jewelry",
-    0
-) > 0:
-
+if theme_counts.get("Designer Jewelry", 0) > 0:
     recommendations.append(
         "Promote wearable art and designer jewelry in gifting campaigns."
     )
 
-if theme_counts.get(
-    "Holiday Opportunities",
-    0
-) > 0:
-
+if theme_counts.get("Holiday Opportunities", 0) > 0:
     recommendations.append(
         "Review seasonal merchandising and holiday gift opportunities."
     )
 
-if theme_counts.get(
-    "Competitor Intelligence",
-    0
-) > 0:
-
+if theme_counts.get("Competitor Intelligence", 0) > 0:
     recommendations.append(
         "Evaluate competitor trends for new product and merchandising opportunities."
     )
 
-if theme_counts.get(
-    "Collection Development",
-    0
-) > 0:
-
+if theme_counts.get("Collection Development", 0) > 0:
     recommendations.append(
         "Review assortment strategy and collection placement opportunities."
     )
 
-if theme_counts.get(
-    "Museum Exclusives",
-    0
-) > 0:
-
+if theme_counts.get("Museum Exclusives", 0) > 0:
     recommendations.append(
         "Consider additional promotion of Museum Exclusive merchandise."
     )
 
-if theme_counts.get(
-    "Exhibitions",
-    0
-) > 0:
-
+if theme_counts.get("Exhibitions", 0) > 0:
     recommendations.append(
         "Develop exhibition-related merchandising and storytelling opportunities."
     )
 
 if not recommendations:
-
     recommendations.append(
         "Continue generating reports to expand intelligence coverage."
     )
@@ -319,153 +282,156 @@ business_areas = {
 }
 
 # ==========================================
-# REPORT
+# BUILD REPORT
 # ==========================================
 
-report = f"""# Museum Store Intelligence Brief
+report_lines = []
 
-Generated:
-{datetime.now()}
+report_lines.append("# Museum Store Intelligence Brief")
+report_lines.append("")
+report_lines.append(f"Generated: {datetime.now()}")
+report_lines.append("")
+report_lines.append(f"Reporting Period: {reporting_period}")
+report_lines.append("")
+report_lines.append("---")
+report_lines.append("")
+report_lines.append("# Executive Summary")
+report_lines.append("")
+report_lines.append(
+    "This briefing summarizes themes, opportunities, strategic recommendations, and repository health across the Museum Ecommerce Agents platform."
+)
 
-Reporting Period:
-{reporting_period}
+report_lines.append("")
+report_lines.append("---")
+report_lines.append("")
+report_lines.append("# Reports Reviewed")
+report_lines.append("")
+report_lines.append(f"Product Reports: {len(product_reports)}")
+report_lines.append(f"Artist Reports: {len(artist_reports)}")
+report_lines.append(f"Market Reports: {len(market_reports)}")
 
----
+report_lines.append("")
+report_lines.append("---")
+report_lines.append("")
+report_lines.append("# Executive Dashboard")
+report_lines.append("")
+report_lines.append(f"Repository Activity Score: {activity_score}")
+report_lines.append(f"Intelligence Rating: {intelligence_rating}")
+report_lines.append(f"Opportunity Score: {opportunity_score}")
 
-# Executive Summary
+report_lines.append("")
+report_lines.append("---")
+report_lines.append("")
+report_lines.append("# Repository Health")
+report_lines.append("")
+report_lines.append(f"Agents Implemented: {agent_count}")
+report_lines.append(f"Workflows Implemented: {workflow_count}")
+report_lines.append(f"Intelligence Libraries: {intelligence_library_count}")
+report_lines.append(f"Repository Health Score: {repository_health_score}")
+report_lines.append(f"Repository Maturity: {repository_maturity}")
 
-This briefing summarizes themes, opportunities, strategic recommendations, and repository health across the Museum Ecommerce Agents platform.
-
----
-
-# Reports Reviewed
-
-Product Reports: {len(product_reports)}
-
-Artist Reports: {len(artist_reports)}
-
-Market Reports: {len(market_reports)}
-
----
-
-# Executive Dashboard
-
-## Repository Activity Score
-
-{activity_score}
-
-## Intelligence Rating
-
-{intelligence_rating}
-
-## Opportunity Score
-
-{opportunity_score}
-
----
-
-# Repository Health
-
-## Agents Implemented
-
-{agent_count}
-
-## Workflows Implemented
-
-{workflow_count}
-
-## Intelligence Libraries
-
-{intelligence_library_count}
-
-## Repository Health Score
-
-{repository_health_score}
-
-## Repository Maturity
-
-{repository_maturity}
-
----
-
-# Top Themes
-
-"""
+report_lines.append("")
+report_lines.append("---")
+report_lines.append("")
+report_lines.append("# Top Themes")
+report_lines.append("")
 
 if top_themes:
-
-    report += "\n".join(top_themes)
-
+    report_lines.extend(top_themes)
 else:
+    report_lines.append("No recurring themes identified.")
 
-    report += "\nNo recurring themes identified."
+report_lines.append("")
+report_lines.append("---")
+report_lines.append("")
+report_lines.append("# Strategic Priorities")
+report_lines.append("")
 
-report += """
-
----
-
-# Strategic Priorities
-
-"""
-
-for index, item in enumerate(
-    top_five,
-    start=1
-):
-
-    report += (
-        f"\n{index}. "
-        f"{item['theme']} "
-        f"({item['count']} references)"
+for idx, item in enumerate(top_five, start=1):
+    report_lines.append(
+        f"{idx}. {item['theme']} ({item['count']} references)"
     )
 
-report += """
+report_lines.append("")
+report_lines.append("---")
+report_lines.append("")
+report_lines.append("# Strategic Recommendations")
+report_lines.append("")
 
----
-
-# Strategic Recommendations
-
-"""
-
-for index, recommendation in enumerate(
+for idx, recommendation in enumerate(
     recommendations,
     start=1
 ):
-
-    report += (
-        f"\n{index}. "
-        f"{recommendation}"
+    report_lines.append(
+        f"{idx}. {recommendation}"
     )
 
-report += """
-
----
-
-# Business Area Coverage
-
-"""
+report_lines.append("")
+report_lines.append("---")
+report_lines.append("")
+report_lines.append("# Business Area Coverage")
+report_lines.append("")
 
 for area, score in business_areas.items():
-
-    report += (
-        f"\n- {area}: "
-        f"{score} references"
+    report_lines.append(
+        f"- {area}: {score} references"
     )
 
-report += """
+report_lines.append("")
+report_lines.append("---")
+report_lines.append("")
+report_lines.append("# Intelligence Repository")
+report_lines.append("")
+report_lines.append(
+    "Future intelligence is archived under reports/intelligence/"
+)
 
----
+report_lines.append("")
+report_lines.append("---")
+report_lines.append("")
+report_lines.append("# Competitor Monitoring")
+report_lines.append("")
+report_lines.append("- Corning Museum of Glass")
+report_lines.append("- MCA Chicago Store")
+report_lines.append("- Museum of Glass Store")
+report_lines.append("- Artful Home")
 
-# Intelligence Repository
+report_lines.append("")
+report_lines.append("---")
+report_lines.append("")
+report_lines.append("# Leadership Summary")
+report_lines.append("")
+report_lines.append(
+    "The Museum Ecommerce Agents platform is actively generating merchandising, artist, and market intelligence."
+)
 
-The repository maintains persistent intelligence assets for:
+report_lines.append(
+    "Continued report generation will improve trend detection, category analysis, and recommendation quality over time."
+)
 
-- Product Content
-- Artist Storytelling
-- Market Research
-- Competitor Intelligence
-- Executive Reporting
+# ==========================================
+# SAVE REPORT
+# ==========================================
 
-Future intelligence is archived under:
+report = "\n".join(report_lines)
 
-reports/intelligence
+os.makedirs(
+    "reports/executive",
+    exist_ok=True
+)
+
+output_file = (
+    "reports/executive/executive-summary.md"
+)
+
+with open(
+    output_file,
+    "w",
+    encoding="utf-8"
+) as file:
+
+    file.write(report)
+
+print(
+    f"Executive summary created: {output_file}"
+)
