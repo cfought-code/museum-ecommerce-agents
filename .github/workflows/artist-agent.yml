@@ -53,3 +53,9 @@ jobs:
         with:
           name: artist-report
           path: reports/artists/artist-report.md
+
+      - name: Upload Artist Intelligence Archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: artist-intelligence-archive
+          path: reports/intelligence/artists/
