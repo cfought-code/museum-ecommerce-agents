@@ -53,7 +53,7 @@ def get_report_contents(folder):
 
 
 # ==========================================
-# LOAD ARCHIVED INTELLIGENCE
+# LOAD INTELLIGENCE REPORTS
 # ==========================================
 
 product_reports = get_report_contents(
@@ -163,7 +163,9 @@ if activity_score >= 20:
 # ==========================================
 
 agent_count = 7
+
 workflow_count = 7
+
 intelligence_library_count = 4
 
 repository_health_score = (
@@ -378,14 +380,9 @@ lines.append("")
 lines.append("# Strategic Priorities")
 lines.append("")
 
-for index, item in enumerate(
-    top_five,
-    start=1
-):
+for idx, item in enumerate(top_five, start=1):
     lines.append(
-        f"{index}. "
-        f"{item['theme']} "
-        f"({item['count']} references)"
+        f"{idx}. {item['theme']} ({item['count']} references)"
     )
 
 lines.append("")
@@ -394,12 +391,12 @@ lines.append("")
 lines.append("# Strategic Recommendations")
 lines.append("")
 
-for index, item in enumerate(
+for idx, recommendation in enumerate(
     recommendations,
     start=1
 ):
     lines.append(
-        f"{index}. {item}"
+        f"{idx}. {recommendation}"
     )
 
 lines.append("")
@@ -409,7 +406,6 @@ lines.append("# Business Area Coverage")
 lines.append("")
 
 for area, score in business_areas.items():
-
     lines.append(
         f"- {area}: {score} references"
     )
@@ -441,6 +437,7 @@ lines.append("")
 lines.append(
     "The Museum Ecommerce Agents platform is actively generating merchandising, artist, and market intelligence."
 )
+
 lines.append(
     "Continued report generation will improve trend detection and recommendation quality over time."
 )
@@ -465,11 +462,16 @@ archive_file = (
 )
 
 # ==========================================
-# SAVE CURRENT REPORT
+# SAVE REPORTS
 # ==========================================
 
 os.makedirs(
     "reports/executive",
+    exist_ok=True
+)
+
+os.makedirs(
+    "reports/intelligence/executive",
     exist_ok=True
 )
 
@@ -480,15 +482,6 @@ with open(
 ) as file:
 
     file.write(report)
-
-# ==========================================
-# SAVE ARCHIVE REPORT
-# ==========================================
-
-os.makedirs(
-    "reports/intelligence/executive",
-    exist_ok=True
-)
 
 with open(
     archive_file,
