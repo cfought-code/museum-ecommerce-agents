@@ -100,6 +100,10 @@ sorted_themes = sorted(
     reverse=True
 )
 
+# ==========================================
+# TOP THEMES
+# ==========================================
+
 top_themes = []
 
 for theme, count in sorted_themes:
@@ -111,12 +115,52 @@ for theme, count in sorted_themes:
         )
 
 # ==========================================
+# PRIORITY THEMES
+# ==========================================
+
+priority_themes = []
+
+for theme, count in sorted_themes:
+
+    if count > 0:
+
+        priority_themes.append(
+            {
+                "theme": theme,
+                "count": count
+            }
+        )
+
+top_five = priority_themes[:5]
+
+# ==========================================
 # OPPORTUNITY SCORE
 # ==========================================
 
 opportunity_score = sum(
     theme_counts.values()
 )
+
+# ==========================================
+# ACTIVITY SCORING
+# ==========================================
+
+activity_score = (
+    len(product_reports)
+    + len(artist_reports)
+    + len(market_reports)
+)
+
+intelligence_rating = "Emerging"
+
+if activity_score >= 5:
+    intelligence_rating = "Developing"
+
+if activity_score >= 10:
+    intelligence_rating = "Advanced"
+
+if activity_score >= 20:
+    intelligence_rating = "Strategic"
 
 # ==========================================
 # RECOMMENDATIONS
@@ -203,6 +247,51 @@ if not recommendations:
     )
 
 # ==========================================
+# BUSINESS AREA COVERAGE
+# ==========================================
+
+business_areas = {
+
+    "Merchandising": (
+        theme_counts.get(
+            "Collection Development",
+            0
+        )
+        +
+        theme_counts.get(
+            "Glass Art",
+            0
+        )
+        +
+        theme_counts.get(
+            "Designer Jewelry",
+            0
+        )
+    ),
+
+    "Content": (
+        theme_counts.get(
+            "Artist Storytelling",
+            0
+        )
+    ),
+
+    "Competitive Intelligence": (
+        theme_counts.get(
+            "Competitor Intelligence",
+            0
+        )
+    ),
+
+    "Seasonal Planning": (
+        theme_counts.get(
+            "Holiday Opportunities",
+            0
+        )
+    )
+}
+
+# ==========================================
 # REPORT
 # ==========================================
 
@@ -232,9 +321,19 @@ Market Reports: {len(market_reports)}
 
 ---
 
-# Intelligence Score
+# Executive Dashboard
 
-{opportunity_score} total theme references identified.
+## Repository Activity Score
+
+{activity_score}
+
+## Intelligence Rating
+
+{intelligence_rating}
+
+## Opportunity Score
+
+{opportunity_score}
 
 ---
 
@@ -258,6 +357,25 @@ report += """
 
 ---
 
+# Strategic Priorities
+
+"""
+
+for index, item in enumerate(
+    top_five,
+    start=1
+):
+
+    report += (
+        f"\n{index}. "
+        f"{item['theme']} "
+        f"({item['count']} references)"
+    )
+
+report += """
+
+---
+
 # Strategic Recommendations
 
 """
@@ -267,7 +385,25 @@ for index, recommendation in enumerate(
     start=1
 ):
 
-    report += f"\n{index}. {recommendation}"
+    report += (
+        f"\n{index}. "
+        f"{recommendation}"
+    )
+
+report += """
+
+---
+
+# Business Area Coverage
+
+"""
+
+for area, score in business_areas.items():
+
+    report += (
+        f"\n- {area}: "
+        f"{score} references"
+    )
 
 report += """
 
@@ -292,9 +428,13 @@ report += """
 
 ---
 
-# Leadership Notes
+# Leadership Summary
 
-This report provides a consolidated view of activity across product enrichment, artist content, market intelligence, and merchandising initiatives. Continued report generation will improve trend detection and recommendation quality over time.
+The Museum Ecommerce Agents platform is actively generating merchandising, artist, and market intelligence.
+
+The strongest themes currently identified represent the areas receiving the highest concentration of report activity and should be considered when prioritizing future museum store initiatives.
+
+Continued report generation will improve trend detection, category analysis, and recommendation quality over time.
 """
 
 # ==========================================
