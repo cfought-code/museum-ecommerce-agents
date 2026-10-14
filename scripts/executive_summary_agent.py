@@ -163,6 +163,33 @@ if activity_score >= 20:
     intelligence_rating = "Strategic"
 
 # ==========================================
+# REPOSITORY HEALTH
+# ==========================================
+
+agent_count = 7
+
+workflow_count = 7
+
+intelligence_library_count = 4
+
+repository_health_score = (
+    agent_count
+    + workflow_count
+    + intelligence_library_count
+)
+
+repository_maturity = "Emerging"
+
+if repository_health_score >= 10:
+    repository_maturity = "Developing"
+
+if repository_health_score >= 15:
+    repository_maturity = "Advanced"
+
+if repository_health_score >= 20:
+    repository_maturity = "Strategic"
+
+# ==========================================
 # RECOMMENDATIONS
 # ==========================================
 
@@ -307,7 +334,7 @@ Reporting Period:
 
 # Executive Summary
 
-This briefing summarizes themes, opportunities, and strategic recommendations identified across the Museum Ecommerce Agents platform.
+This briefing summarizes themes, opportunities, strategic recommendations, and repository health across the Museum Ecommerce Agents platform.
 
 ---
 
@@ -337,21 +364,41 @@ Market Reports: {len(market_reports)}
 
 ---
 
+# Repository Health
+
+## Agents Implemented
+
+{agent_count}
+
+## Workflows Implemented
+
+{workflow_count}
+
+## Intelligence Libraries
+
+{intelligence_library_count}
+
+## Repository Health Score
+
+{repository_health_score}
+
+## Repository Maturity
+
+{repository_maturity}
+
+---
+
 # Top Themes
 
 """
 
 if top_themes:
 
-    report += "\n".join(
-        top_themes
-    )
+    report += "\n".join(top_themes)
 
 else:
 
-    report += (
-        "\nNo recurring themes identified."
-    )
+    report += "\nNo recurring themes identified."
 
 report += """
 
@@ -409,55 +456,16 @@ report += """
 
 ---
 
-# Competitor Monitoring
+# Intelligence Repository
 
-- Corning Museum of Glass
-- MCA Chicago Store
-- Museum of Glass Store
-- Artful Home
+The repository maintains persistent intelligence assets for:
 
----
-
-# Future Focus Areas
-
+- Product Content
 - Artist Storytelling
-- Collection Development
-- Product Content Quality
-- SEO & AEO Readiness
-- Museum Retail Trends
+- Market Research
+- Competitor Intelligence
+- Executive Reporting
 
----
+Future intelligence is archived under:
 
-# Leadership Summary
-
-The Museum Ecommerce Agents platform is actively generating merchandising, artist, and market intelligence.
-
-The strongest themes currently identified represent the areas receiving the highest concentration of report activity and should be considered when prioritizing future museum store initiatives.
-
-Continued report generation will improve trend detection, category analysis, and recommendation quality over time.
-"""
-
-# ==========================================
-# SAVE REPORT
-# ==========================================
-
-os.makedirs(
-    "reports/executive",
-    exist_ok=True
-)
-
-output_file = (
-    "reports/executive/executive-summary.md"
-)
-
-with open(
-    output_file,
-    "w",
-    encoding="utf-8"
-) as file:
-
-    file.write(report)
-
-print(
-    f"Executive summary created: {output_file}"
-)
+reports/intelligence
