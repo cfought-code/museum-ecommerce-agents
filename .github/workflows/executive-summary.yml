@@ -26,7 +26,6 @@ jobs:
       - name: Generate Executive Summary
         env:
           REPORTING_PERIOD: ${{ github.event.inputs.reporting_period }}
-
         run: |
           python -m scripts.executive_summary_agent
 
@@ -35,3 +34,9 @@ jobs:
         with:
           name: executive-summary
           path: reports/executive/executive-summary.md
+
+      - name: Upload Executive Intelligence Archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: executive-intelligence-archive
+          path: reports/intelligence/executive/
