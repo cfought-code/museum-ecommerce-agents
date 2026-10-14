@@ -2,6 +2,7 @@ from datetime import datetime
 import os
 
 from data.category_rules import CATEGORY_RULES
+from data.category_aliases import CATEGORY_ALIASES
 from scripts.content_generator import generate_content
 
 # ==========================================
@@ -18,7 +19,16 @@ price = os.environ.get("PRICE", "")
 dimensions = os.environ.get("DIMENSIONS", "")
 product_url = os.environ.get("PRODUCT_URL", "")
 
+# ==========================================
+# CATEGORY NORMALIZATION
+# ==========================================
+
 category_lower = category.lower().strip()
+
+category_lower = CATEGORY_ALIASES.get(
+    category_lower,
+    category_lower
+)
 
 # ==========================================
 # CATEGORY LOOKUP
@@ -106,7 +116,7 @@ gift_categories.append(
 content = generate_content(
     product_name=product_name,
     artist=artist,
-    category=category,
+    category=category_lower,
     materials=materials,
     vendor_description=vendor_description,
     collection_recommendation=collection_recommendation
@@ -146,6 +156,8 @@ Generated:
 **Artist:** {artist}
 
 **Category:** {category}
+
+**Normalized Category:** {category_lower}
 
 **Materials:** {materials}
 
@@ -260,6 +272,10 @@ with open(
 ) as file:
 
     file.write(report)
+
+# ==========================================
+# LOGGING
+# ==========================================
 
 print(
     f"Current report created: {output_file}"
