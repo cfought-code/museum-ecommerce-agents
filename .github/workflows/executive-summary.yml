@@ -33,10 +33,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: executive-summary
-          path: reports/executive/executive-summary.md
+          path: reports/executive-summary.md
 
-      - name: Upload Executive Intelligence Archive
+      - name: Upload Trend Intelligence
         uses: actions/upload-artifact@v4
         with:
-          name: executive-intelligence-archive
-          path: reports/intelligence/executive/
+          name: trend-intelligence
+          path: reports/intelligence/trends/
