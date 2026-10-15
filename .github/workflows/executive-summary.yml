@@ -8,6 +8,9 @@ on:
         required: true
         type: string
 
+permissions:
+  contents: write
+
 jobs:
   generate-summary:
 
@@ -40,3 +43,15 @@ jobs:
         with:
           name: trend-intelligence
           path: reports/intelligence/trends/
+
+      - name: Commit Intelligence Archives
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add reports/
+
+          git diff --cached --quiet && exit 0
+
+          git commit -m "Archive executive intelligence reports"
+          git push
