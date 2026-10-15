@@ -1,504 +1,325 @@
 import os
+import re
 from datetime import datetime
+from collections import Counter
 
-from data.executive_themes import EXECUTIVE_THEMES
 
-# ==========================================
-# INPUTS
-# ==========================================
+REPORTS_DIR = "reports"
+INTELLIGENCE_DIR = os.path.join(REPORTS_DIR, "intelligence")
 
-reporting_period = os.environ.get(
-    "REPORTING_PERIOD",
-    ""
-)
+PRODUCTS_DIR = os.path.join(INTELLIGENCE_DIR, "products")
+ARTISTS_DIR = os.path.join(INTELLIGENCE_DIR, "artists")
+COMPETITORS_DIR = os.path.join(INTELLIGENCE_DIR, "competitors")
+EXECUTIVE_DIR = os.path.join(INTELLIGENCE_DIR, "executive")
+TRENDS_DIR = os.path.join(INTELLIGENCE_DIR, "trends")
 
-# ==========================================
-# HELPERS
-# ==========================================
+TODAY = datetime.now().strftime("%Y-%m-%d")
 
-def get_report_contents(folder):
 
+def ensure_directories():
+    """
+    Create required intelligence directories if missing.
+    """
+    directories = [
+        PRODUCTS_DIR,
+        ARTISTS_DIR,
+        COMPETITORS_DIR,
+        EXECUTIVE_DIR,
+        TRENDS_DIR,
+    ]
+
+    for directory in directories:
+        os.makedirs(directory, exist_ok=True)
+
+
+def read_markdown_files(directory):
+    """
+    Read all markdown files from a directory.
+    """
     contents = []
 
-    if not os.path.exists(folder):
+    if not os.path.exists(directory):
         return contents
 
-    for root, _, files in os.walk(folder):
+    for filename in sorted(os.listdir(directory)):
+        if not filename.endswith(".md"):
+            continue
 
-        for filename in files:
+        filepath = os.path.join(directory, filename)
 
-            if filename.endswith(".md"):
-
-                filepath = os.path.join(
-                    root,
-                    filename
+        try:
+            with open(filepath, "r", encoding="utf-8") as file:
+                contents.append(
+                    {
+                        "filename": filename,
+                        "content": file.read(),
+                    }
                 )
-
-                try:
-
-                    with open(
-                        filepath,
-                        "r",
-                        encoding="utf-8"
-                    ) as file:
-
-                        contents.append(
-                            file.read()
-                        )
-
-                except Exception:
-                    pass
+        except Exception as e:
+            print(f"Unable to read {filepath}: {e}")
 
     return contents
 
 
-# ==========================================
-# LOAD INTELLIGENCE REPORTS
-# ==========================================
-
-product_reports = get_report_contents(
-    "reports/intelligence/products"
-)
-
-artist_reports = get_report_contents(
-    "reports/intelligence/artists"
-)
-
-market_reports = get_report_contents(
-    "reports/intelligence/market"
-)
-
-# ==========================================
-# THEME DETECTION
-# ==========================================
-
-all_content = (
-    "\n".join(product_reports)
-    + "\n"
-    + "\n".join(artist_reports)
-    + "\n"
-    + "\n".join(market_reports)
-).lower()
-
-theme_counts = {}
-
-for theme, keywords in EXECUTIVE_THEMES.items():
-
-    count = 0
-
-    for keyword in keywords:
-
-        count += all_content.count(
-            keyword.lower()
-        )
-
-    theme_counts[theme] = count
-
-sorted_themes = sorted(
-    theme_counts.items(),
-    key=lambda item: item[1],
-    reverse=True
-)
-
-# ==========================================
-# TOP THEMES
-# ==========================================
-
-top_themes = []
-
-for theme, count in sorted_themes:
-
-    if count > 0:
-
-        top_themes.append(
-            f"- {theme} ({count} references)"
-        )
-
-# ==========================================
-# PRIORITY THEMES
-# ==========================================
-
-priority_themes = []
-
-for theme, count in sorted_themes:
-
-    if count > 0:
-
-        priority_themes.append(
-            {
-                "theme": theme,
-                "count": count
-            }
-        )
-
-top_five = priority_themes[:5]
-
-# ==========================================
-# SCORES
-# ==========================================
-
-opportunity_score = sum(
-    theme_counts.values()
-)
-
-activity_score = (
-    len(product_reports)
-    + len(artist_reports)
-    + len(market_reports)
-)
-
-intelligence_rating = "Emerging"
-
-if activity_score >= 5:
-    intelligence_rating = "Developing"
-
-if activity_score >= 10:
-    intelligence_rating = "Advanced"
-
-if activity_score >= 20:
-    intelligence_rating = "Strategic"
-
-# ==========================================
-# REPOSITORY HEALTH
-# ==========================================
-
-agent_count = 7
-
-workflow_count = 7
-
-intelligence_library_count = 4
-
-repository_health_score = (
-    agent_count
-    + workflow_count
-    + intelligence_library_count
-)
-
-repository_maturity = "Emerging"
-
-if repository_health_score >= 10:
-    repository_maturity = "Developing"
-
-if repository_health_score >= 15:
-    repository_maturity = "Advanced"
-
-if repository_health_score >= 20:
-    repository_maturity = "Strategic"
-
-# ==========================================
-# RECOMMENDATIONS
-# ==========================================
-
-recommendations = []
-
-if theme_counts.get(
-    "Glass Art",
-    0
-) > 0:
-
-    recommendations.append(
-        "Continue expanding Studio Glass and glass-focused merchandising."
-    )
-
-if theme_counts.get(
-    "Artist Storytelling",
-    0
-) > 0:
-
-    recommendations.append(
-        "Increase artist-focused content across product and collection pages."
-    )
-
-if theme_counts.get(
-    "Designer Jewelry",
-    0
-) > 0:
-
-    recommendations.append(
-        "Promote wearable art and designer jewelry in gifting campaigns."
-    )
-
-if theme_counts.get(
-    "Holiday Opportunities",
-    0
-) > 0:
-
-    recommendations.append(
-        "Review seasonal merchandising and holiday gift opportunities."
-    )
-
-if theme_counts.get(
-    "Competitor Intelligence",
-    0
-) > 0:
-
-    recommendations.append(
-        "Evaluate competitor trends for new product opportunities."
-    )
-
-if theme_counts.get(
-    "Collection Development",
-    0
-) > 0:
-
-    recommendations.append(
-        "Review assortment strategy and collection placement opportunities."
-    )
-
-if theme_counts.get(
-    "Museum Exclusives",
-    0
-) > 0:
-
-    recommendations.append(
-        "Consider additional promotion of Museum Exclusive merchandise."
-    )
-
-if theme_counts.get(
-    "Exhibitions",
-    0
-) > 0:
-
-    recommendations.append(
-        "Develop exhibition-related merchandising opportunities."
-    )
-
-if not recommendations:
-
-    recommendations.append(
-        "Continue generating reports to expand intelligence coverage."
-    )
-
-# ==========================================
-# BUSINESS AREA COVERAGE
-# ==========================================
-
-business_areas = {
-
-    "Merchandising": (
-        theme_counts.get(
-            "Collection Development",
-            0
-        )
-        +
-        theme_counts.get(
-            "Glass Art",
-            0
-        )
-        +
-        theme_counts.get(
-            "Designer Jewelry",
-            0
-        )
-    ),
-
-    "Content": (
-        theme_counts.get(
-            "Artist Storytelling",
-            0
-        )
-    ),
-
-    "Competitive Intelligence": (
-        theme_counts.get(
-            "Competitor Intelligence",
-            0
-        )
-    ),
-
-    "Seasonal Planning": (
-        theme_counts.get(
-            "Holiday Opportunities",
-            0
-        )
-    )
-}
-
-# ==========================================
-# BUILD REPORT
-# ==========================================
-
-lines = []
-
-lines.append("# Museum Store Intelligence Brief")
-lines.append("")
-lines.append(f"Generated: {datetime.now()}")
-lines.append("")
-lines.append(f"Reporting Period: {reporting_period}")
-lines.append("")
-lines.append("---")
-lines.append("")
-lines.append("# Executive Summary")
-lines.append("")
-lines.append(
-    "This briefing summarizes themes, opportunities, strategic recommendations, and repository health across the Museum Ecommerce Agents platform."
-)
-
-lines.append("")
-lines.append("---")
-lines.append("")
-lines.append("# Reports Reviewed")
-lines.append("")
-lines.append(f"Product Reports: {len(product_reports)}")
-lines.append(f"Artist Reports: {len(artist_reports)}")
-lines.append(f"Market Reports: {len(market_reports)}")
-
-lines.append("")
-lines.append("---")
-lines.append("")
-lines.append("# Executive Dashboard")
-lines.append("")
-lines.append(f"Repository Activity Score: {activity_score}")
-lines.append(f"Intelligence Rating: {intelligence_rating}")
-lines.append(f"Opportunity Score: {opportunity_score}")
-
-lines.append("")
-lines.append("---")
-lines.append("")
-lines.append("# Repository Health")
-lines.append("")
-lines.append(f"Agents Implemented: {agent_count}")
-lines.append(f"Workflows Implemented: {workflow_count}")
-lines.append(f"Intelligence Libraries: {intelligence_library_count}")
-lines.append(f"Repository Health Score: {repository_health_score}")
-lines.append(f"Repository Maturity: {repository_maturity}")
-
-lines.append("")
-lines.append("---")
-lines.append("")
-lines.append("# Top Themes")
-lines.append("")
-
-if top_themes:
-    lines.extend(top_themes)
-else:
-    lines.append("No recurring themes identified.")
-
-lines.append("")
-lines.append("---")
-lines.append("")
-lines.append("# Strategic Priorities")
-lines.append("")
-
-for idx, item in enumerate(top_five, start=1):
-    lines.append(
-        f"{idx}. {item['theme']} ({item['count']} references)"
-    )
-
-lines.append("")
-lines.append("---")
-lines.append("")
-lines.append("# Strategic Recommendations")
-lines.append("")
-
-for idx, recommendation in enumerate(
-    recommendations,
-    start=1
+def extract_top_terms(text_blocks, top_n=15):
+    """
+    Simple trend extraction engine.
+    """
+
+    stop_words = {
+        "this",
+        "that",
+        "with",
+        "from",
+        "have",
+        "been",
+        "will",
+        "into",
+        "their",
+        "they",
+        "them",
+        "the",
+        "and",
+        "for",
+        "are",
+        "was",
+        "were",
+        "your",
+        "you",
+        "about",
+        "into",
+        "than",
+        "also",
+        "more",
+        "most",
+        "very",
+        "which",
+        "when",
+        "where",
+        "what",
+        "while",
+        "report",
+        "reports",
+        "product",
+        "products",
+        "artist",
+        "artists",
+        "competitor",
+        "competitors",
+        "summary",
+        "executive",
+    }
+
+    counter = Counter()
+
+    for block in text_blocks:
+        words = re.findall(r"\b[a-zA-Z]{4,}\b", block.lower())
+
+        for word in words:
+            if word not in stop_words:
+                counter[word] += 1
+
+    return counter.most_common(top_n)
+
+
+def generate_trend_report(
+    product_reports,
+    artist_reports,
+    competitor_reports
 ):
-    lines.append(
-        f"{idx}. {recommendation}"
+    """
+    Build intelligence trend report.
+    """
+
+    combined_text = []
+
+    for report in product_reports:
+        combined_text.append(report["content"])
+
+    for report in artist_reports:
+        combined_text.append(report["content"])
+
+    for report in competitor_reports:
+        combined_text.append(report["content"])
+
+    trends = extract_top_terms(combined_text)
+
+    report_lines = [
+        f"# Trend Report - {TODAY}",
+        "",
+        "## Emerging Trends",
+        "",
+    ]
+
+    if trends:
+        for term, count in trends:
+            report_lines.append(f"- {term}: {count} mentions")
+    else:
+        report_lines.append("- No significant trends detected")
+
+    trend_report = "\n".join(report_lines)
+
+    filename = f"{TODAY}-trend-report.md"
+    filepath = os.path.join(TRENDS_DIR, filename)
+
+    with open(filepath, "w", encoding="utf-8") as file:
+        file.write(trend_report)
+
+    print(f"Trend report written: {filepath}")
+
+    return trends
+
+
+def summarize_recent_files(reports):
+    """
+    Return a small list of newest files.
+    """
+
+    if not reports:
+        return ["No reports available"]
+
+    files = sorted(
+        [item["filename"] for item in reports],
+        reverse=True
     )
 
-lines.append("")
-lines.append("---")
-lines.append("")
-lines.append("# Business Area Coverage")
-lines.append("")
+    return files[:5]
 
-for area, score in business_areas.items():
-    lines.append(
-        f"- {area}: {score} references"
+
+def build_executive_summary(
+    product_reports,
+    artist_reports,
+    competitor_reports,
+    trends
+):
+    """
+    Generate leadership-focused executive summary.
+    """
+
+    product_count = len(product_reports)
+    artist_count = len(artist_reports)
+    competitor_count = len(competitor_reports)
+
+    total_reports = (
+        product_count
+        + artist_count
+        + competitor_count
     )
 
-lines.append("")
-lines.append("---")
-lines.append("")
-lines.append("# Intelligence Repository")
-lines.append("")
-lines.append(
-    "Historical intelligence is sourced from archived reports located under reports/intelligence/."
-)
+    lines = [
+        f"# Executive Summary - {TODAY}",
+        "",
+        "## Repository Health",
+        "",
+        f"- Product Reports: {product_count}",
+        f"- Artist Reports: {artist_count}",
+        f"- Competitor Reports: {competitor_count}",
+        f"- Total Intelligence Reports: {total_reports}",
+        "",
+        "## Recent Intelligence Activity",
+        "",
+        "### Product Reports",
+    ]
 
-lines.append("")
-lines.append("---")
-lines.append("")
-lines.append("# Competitor Monitoring")
-lines.append("")
-lines.append("- Corning Museum of Glass")
-lines.append("- MCA Chicago Store")
-lines.append("- Museum of Glass Store")
-lines.append("- Artful Home")
+    for item in summarize_recent_files(product_reports):
+        lines.append(f"- {item}")
 
-lines.append("")
-lines.append("---")
-lines.append("")
-lines.append("# Leadership Summary")
-lines.append("")
-lines.append(
-    "The Museum Ecommerce Agents platform is actively generating merchandising, artist, and market intelligence."
-)
+    lines.extend([
+        "",
+        "### Artist Reports",
+    ])
 
-lines.append(
-    "Continued report generation will improve trend detection and recommendation quality over time."
-)
+    for item in summarize_recent_files(artist_reports):
+        lines.append(f"- {item}")
 
-report = "\n".join(lines)
+    lines.extend([
+        "",
+        "### Competitor Reports",
+    ])
 
-# ==========================================
-# OUTPUT FILES
-# ==========================================
+    for item in summarize_recent_files(competitor_reports):
+        lines.append(f"- {item}")
 
-timestamp = datetime.now().strftime(
-    "%Y-%m-%d"
-)
+    lines.extend([
+        "",
+        "## Emerging Trends",
+        "",
+    ])
 
-output_file = (
-    "reports/executive/executive-summary.md"
-)
+    if trends:
+        for term, count in trends[:10]:
+            lines.append(
+                f"- {term}: {count} mentions across intelligence reports"
+            )
+    else:
+        lines.append("- No trends detected")
 
-archive_file = (
-    f"reports/intelligence/executive/"
-    f"{timestamp}-executive-summary.md"
-)
+    lines.extend([
+        "",
+        "## Recommended Actions",
+        "",
+        "- Monitor recurring themes appearing across intelligence reports.",
+        "- Investigate frequently mentioned categories and artists.",
+        "- Compare trend movement across future report runs.",
+        "- Continue building historical intelligence archives.",
+        "",
+        "---",
+        "",
+        "Generated by Executive Summary Agent V6",
+    ])
 
-# ==========================================
-# SAVE REPORTS
-# ==========================================
+    return "\n".join(lines)
 
-os.makedirs(
-    "reports/executive",
-    exist_ok=True
-)
 
-os.makedirs(
-    "reports/intelligence/executive",
-    exist_ok=True
-)
+def save_executive_summary(summary):
+    """
+    Save current executive outputs.
+    """
 
-with open(
-    output_file,
-    "w",
-    encoding="utf-8"
-) as file:
+    root_file = os.path.join(
+        REPORTS_DIR,
+        "executive-summary.md"
+    )
 
-    file.write(report)
+    archive_file = os.path.join(
+        EXECUTIVE_DIR,
+        f"{TODAY}-executive-summary.md"
+    )
 
-with open(
-    archive_file,
-    "w",
-    encoding="utf-8"
-) as file:
+    with open(root_file, "w", encoding="utf-8") as file:
+        file.write(summary)
 
-    file.write(report)
+    with open(archive_file, "w", encoding="utf-8") as file:
+        file.write(summary)
 
-# ==========================================
-# LOGGING
-# ==========================================
+    print(f"Executive summary saved: {root_file}")
+    print(f"Executive archive saved: {archive_file}")
 
-print(
-    f"Current report created: {output_file}"
-)
 
-print(
-    f"Archive report created: {archive_file}"
-)
+def main():
+    ensure_directories()
+
+    product_reports = read_markdown_files(PRODUCTS_DIR)
+    artist_reports = read_markdown_files(ARTISTS_DIR)
+    competitor_reports = read_markdown_files(COMPETITORS_DIR)
+
+    trends = generate_trend_report(
+        product_reports,
+        artist_reports,
+        competitor_reports,
+    )
+
+    executive_summary = build_executive_summary(
+        product_reports,
+        artist_reports,
+        competitor_reports,
+        trends,
+    )
+
+    save_executive_summary(executive_summary)
+
+    print("Executive Summary Agent V6 completed successfully.")
+
+
+if __name__ == "__main__":
+    main()
