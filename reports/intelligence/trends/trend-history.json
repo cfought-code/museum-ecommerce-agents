@@ -1,51 +1,47 @@
 {
-  "glass": {
-    "history": []
-  },
-  "studio": {
-    "history": []
-  },
-  "museum": {
-    "history": []
-  },
-  "collection": {
-    "history": []
-  },
-  "artist": {
-    "history": []
-  },
-  "jewelry": {
-    "history": []
-  },
-  "books": {
-    "history": []
-  },
-  "gift": {
-    "history": []
-  },
-  "ceramic": {
-    "history": []
-  },
-  "vase": {
-    "history": []
-  },
-  "holiday": {
-    "history": []
-  },
-  "home": {
-    "history": []
-  },
-  "wallace": {
-    "history": []
-  },
-  "rainbow": {
-    "history": []
-  },
-  "teardrop": {
-    "history": []
-  },
-  "cane": {
-    "history": []
-  }
+  "glass": [
+    22
+  ],
+  "studio": [
+    6
+  ],
+  "description": [
+    5
+  ],
+  "rainbow": [
+    5
+  ],
+  "teardrop": [
+    5
+  ],
+  "cane": [
+    5
+  ],
+  "vase": [
+    5
+  ],
+  "mike": [
+    5
+  ],
+  "wallace": [
+    5
+  ],
+  "museum": [
+    5
+  ],
+  "collection": [
+    4
+  ],
+  "creative": [
+    3
+  ],
+  "experience": [
+    3
+  ],
+  "vision": [
+    3
+  ],
+  "gift": [
+    3
+  ]
 }
-``
