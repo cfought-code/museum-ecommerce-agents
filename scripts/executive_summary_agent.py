@@ -159,6 +159,17 @@ def extract_top_terms(text_blocks, top_n=15):
         "celebrate",
         "featuring",
         "featured",
+        "immediate",
+        "challenging",
+        "technical",
+        "skills",
+        "fine",
+        "work",
+        "works",
+        "working",
+        "career",
+        "artwork",
+        "artworks",
     }
 
     counter = Counter()
