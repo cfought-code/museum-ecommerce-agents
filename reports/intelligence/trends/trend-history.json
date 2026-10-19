@@ -9,9 +9,6 @@
     6,
     6
   ],
-  "description": [
-    5
-  ],
   "rainbow": [
     5,
     5,
@@ -42,60 +39,8 @@
     5,
     5
   ],
-  "museum": [
-    5
-  ],
-  "collection": [
-    4
-  ],
-  "creative": [
-    3
-  ],
-  "experience": [
-    3
-  ],
-  "vision": [
-    3
-  ],
-  "gift": [
-    3
-  ],
-  "category": [
-    2,
-    2
-  ],
   "blown": [
     2,
-    2
-  ],
-  "immediate": [
-    2
-  ],
-  "challenging": [
-    2
-  ],
-  "technical": [
-    2
-  ],
-  "skills": [
-    2
-  ],
-  "fine": [
-    2
-  ],
-  "suggested": [
-    2
-  ],
-  "color": [
-    2
-  ],
-  "craftsmanship": [
-    2
-  ],
-  "artistic": [
-    2
-  ],
-  "everyday": [
     2
   ]
 }
