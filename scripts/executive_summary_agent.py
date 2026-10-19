@@ -24,6 +24,11 @@ TREND_HISTORY_FILE = os.path.join(
     "trend-history.json"
 )
 
+DASHBOARD_DIR = os.path.join(
+    INTELLIGENCE_DIR,
+    "dashboard"
+)
+
 TODAY = datetime.now().strftime("%Y-%m-%d")
 
 
@@ -35,6 +40,7 @@ def ensure_directories():
         EXECUTIVE_DIR,
         TRENDS_DIR,
         OPPORTUNITIES_DIR,
+        DASHBOARD_DIR,
     ]
 
     for directory in directories:
