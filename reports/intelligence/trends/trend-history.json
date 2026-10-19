@@ -1,9 +1,11 @@
 {
   "glass": [
     22,
+    22,
     22
   ],
   "studio": [
+    6,
     6,
     6
   ],
@@ -12,25 +14,31 @@
   ],
   "rainbow": [
     5,
+    5,
     5
   ],
   "teardrop": [
+    5,
     5,
     5
   ],
   "cane": [
     5,
+    5,
     5
   ],
   "vase": [
+    5,
     5,
     5
   ],
   "mike": [
     5,
+    5,
     5
   ],
   "wallace": [
+    5,
     5,
     5
   ],
@@ -53,9 +61,11 @@
     3
   ],
   "category": [
+    2,
     2
   ],
   "blown": [
+    2,
     2
   ],
   "immediate": [
@@ -71,6 +81,21 @@
     2
   ],
   "fine": [
+    2
+  ],
+  "suggested": [
+    2
+  ],
+  "color": [
+    2
+  ],
+  "craftsmanship": [
+    2
+  ],
+  "artistic": [
+    2
+  ],
+  "everyday": [
     2
   ]
 }

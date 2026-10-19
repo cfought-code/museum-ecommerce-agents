@@ -47,6 +47,11 @@
 - technical
 - skills
 - fine
+- suggested
+- color
+- craftsmanship
+- artistic
+- everyday
 
 ### Declining
 - None

@@ -26,6 +26,11 @@
 - technical (+0)
 - skills (+0)
 - fine (+0)
+- suggested (+0)
+- color (+0)
+- craftsmanship (+0)
+- artistic (+0)
+- everyday (+0)
 
 ## Declining Trends
 - None
