@@ -1,29 +1,37 @@
 {
   "glass": [
+    22,
     22
   ],
   "studio": [
+    6,
     6
   ],
   "description": [
     5
   ],
   "rainbow": [
+    5,
     5
   ],
   "teardrop": [
+    5,
     5
   ],
   "cane": [
+    5,
     5
   ],
   "vase": [
+    5,
     5
   ],
   "mike": [
+    5,
     5
   ],
   "wallace": [
+    5,
     5
   ],
   "museum": [
@@ -43,5 +51,26 @@
   ],
   "gift": [
     3
+  ],
+  "category": [
+    2
+  ],
+  "blown": [
+    2
+  ],
+  "immediate": [
+    2
+  ],
+  "challenging": [
+    2
+  ],
+  "technical": [
+    2
+  ],
+  "skills": [
+    2
+  ],
+  "fine": [
+    2
   ]
 }

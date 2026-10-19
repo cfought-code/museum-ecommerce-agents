@@ -5,31 +5,19 @@
 - Product Reports: 1
 - Artist Reports: 0
 - Competitor Reports: 0
-- Total Intelligence Reports: 1
 
-## Recent Intelligence Activity
-
-### Product Reports
-- 2026-10-14-product-report.md
-
-### Artist Reports
-- No reports available
-
-### Competitor Reports
-- No reports available
-
-## Emerging Trends
+## Top Trends
 
 - glass: 22 mentions
 - studio: 6 mentions
-- description: 5 mentions
 - rainbow: 5 mentions
 - teardrop: 5 mentions
 - cane: 5 mentions
 - vase: 5 mentions
 - mike: 5 mentions
 - wallace: 5 mentions
-- museum: 5 mentions
+- category: 2 mentions
+- blown: 2 mentions
 
 ## Trend Momentum
 
@@ -52,16 +40,22 @@
 - experience
 - vision
 - gift
+- category
+- blown
+- immediate
+- challenging
+- technical
+- skills
+- fine
 
 ### Declining
 - None
 
 ## Recommended Actions
 
-- Monitor rising trends for merchandising opportunities.
-- Investigate declining trends before inventory expansion.
-- Compare momentum changes across future runs.
-- Continue building historical intelligence archives.
+- Monitor rising categories.
+- Watch declining categories.
+- Continue building historic intelligence.
 
 ---
 
