@@ -64,10 +64,7 @@ def read_markdown_files(directory):
                 )
 
         except Exception as error:
-
-            print(
-                f"Unable to read {filepath}: {error}"
-            )
+            print(f"Unable to read {filepath}: {error}")
 
     return contents
 
@@ -105,16 +102,63 @@ def extract_top_terms(text_blocks, top_n=15):
         "where",
         "what",
         "while",
+
         "report",
         "reports",
+        "summary",
+        "executive",
+
         "product",
         "products",
+        "item",
+        "items",
+        "customer",
+        "customers",
+        "quality",
+        "design",
+        "designed",
+        "features",
+        "feature",
+
+        "museum",
+        "store",
+        "collection",
+        "collections",
+
+        "description",
+        "creative",
+        "experience",
+        "vision",
+        "gift",
+        "gifts",
+        "beautiful",
+        "inspired",
+        "inspiration",
+        "premium",
+        "unique",
+        "perfect",
+        "ideal",
+        "thoughtful",
+        "crafted",
+
         "artist",
         "artists",
         "competitor",
         "competitors",
-        "summary",
-        "executive",
+
+        "available",
+        "includes",
+        "including",
+        "create",
+        "creating",
+        "offers",
+        "offering",
+        "showcases",
+        "showcase",
+        "celebrates",
+        "celebrate",
+        "featuring",
+        "featured",
     }
 
     counter = Counter()
@@ -127,7 +171,6 @@ def extract_top_terms(text_blocks, top_n=15):
         )
 
         for word in words:
-
             if word not in stop_words:
                 counter[word] += 1
 
@@ -140,7 +183,6 @@ def load_trend_history():
         return {}
 
     try:
-
         with open(
             TREND_HISTORY_FILE,
             "r",
@@ -150,7 +192,6 @@ def load_trend_history():
             return json.load(file)
 
     except Exception:
-
         return {}
 
 
@@ -173,14 +214,14 @@ def update_trend_history(trends, history):
 
     for term, count in trends:
 
-        previous = history.get(term, [])
+        values = history.get(term, [])
 
-        if isinstance(previous, int):
-            previous = [previous]
+        if isinstance(values, int):
+            values = [values]
 
-        previous.append(count)
+        values.append(count)
 
-        history[term] = previous[-20:]
+        history[term] = values[-20:]
 
     return history
 
@@ -204,10 +245,8 @@ def calculate_momentum(history):
 
         if change > 1:
             status = "Rising"
-
         elif change < -1:
             status = "Declining"
-
         else:
             status = "Stable"
 
@@ -238,27 +277,26 @@ def generate_trend_report(
 
     trends = extract_top_terms(combined_text)
 
-    report_lines = [
+    lines = [
         f"# Trend Report - {TODAY}",
         "",
         "## Emerging Trends",
-        "",
+        ""
     ]
 
     if trends:
 
         for term, count in trends:
-            report_lines.append(
+            lines.append(
                 f"- {term}: {count} mentions"
             )
 
     else:
-
-        report_lines.append(
-            "- No significant trends detected"
+        lines.append(
+            "- No trends detected"
         )
 
-    trend_report = "\n".join(report_lines)
+    report = "\n".join(lines)
 
     root_file = os.path.join(
         REPORTS_DIR,
@@ -271,12 +309,10 @@ def generate_trend_report(
     )
 
     with open(root_file, "w", encoding="utf-8") as file:
-        file.write(trend_report)
+        file.write(report)
 
     with open(archive_file, "w", encoding="utf-8") as file:
-        file.write(trend_report)
-
-    print(f"Trend report written: {archive_file}")
+        file.write(report)
 
     return trends
 
@@ -285,7 +321,7 @@ def generate_momentum_report(momentum_data):
 
     lines = [
         f"# Momentum Report - {TODAY}",
-        "",
+        ""
     ]
 
     rising = []
@@ -294,19 +330,19 @@ def generate_momentum_report(momentum_data):
 
     for trend, data in momentum_data.items():
 
-        line = (
+        entry = (
             f"- {trend} "
             f"({data['change']:+d})"
         )
 
         if data["status"] == "Rising":
-            rising.append(line)
+            rising.append(entry)
 
         elif data["status"] == "Declining":
-            declining.append(line)
+            declining.append(entry)
 
         else:
-            stable.append(line)
+            stable.append(entry)
 
     lines.append("## Rising Trends")
     lines.extend(rising if rising else ["- None"])
@@ -318,7 +354,6 @@ def generate_momentum_report(momentum_data):
 
     lines.append("## Declining Trends")
     lines.extend(declining if declining else ["- None"])
-    lines.append("")
 
     report = "\n".join(lines)
 
@@ -338,22 +373,7 @@ def generate_momentum_report(momentum_data):
     with open(archive_file, "w", encoding="utf-8") as file:
         file.write(report)
 
-    print(f"Momentum report written: {archive_file}")
-
     return report
-
-
-def summarize_recent_files(reports):
-
-    if not reports:
-        return ["No reports available"]
-
-    files = sorted(
-        [item["filename"] for item in reports],
-        reverse=True
-    )
-
-    return files[:5]
 
 
 def build_executive_summary(
@@ -364,31 +384,21 @@ def build_executive_summary(
     momentum_data
 ):
 
-    product_count = len(product_reports)
-    artist_count = len(artist_reports)
-    competitor_count = len(competitor_reports)
-
-    total_reports = (
-        product_count
-        + artist_count
-        + competitor_count
-    )
-
     rising = [
-        trend
-        for trend, data in momentum_data.items()
+        trend for trend, data
+        in momentum_data.items()
         if data["status"] == "Rising"
     ]
 
     stable = [
-        trend
-        for trend, data in momentum_data.items()
+        trend for trend, data
+        in momentum_data.items()
         if data["status"] == "Stable"
     ]
 
     declining = [
-        trend
-        for trend, data in momentum_data.items()
+        trend for trend, data
+        in momentum_data.items()
         if data["status"] == "Declining"
     ]
 
@@ -397,40 +407,13 @@ def build_executive_summary(
         "",
         "## Repository Health",
         "",
-        f"- Product Reports: {product_count}",
-        f"- Artist Reports: {artist_count}",
-        f"- Competitor Reports: {competitor_count}",
-        f"- Total Intelligence Reports: {total_reports}",
+        f"- Product Reports: {len(product_reports)}",
+        f"- Artist Reports: {len(artist_reports)}",
+        f"- Competitor Reports: {len(competitor_reports)}",
         "",
-        "## Recent Intelligence Activity",
-        "",
-        "### Product Reports",
+        "## Top Trends",
+        ""
     ]
-
-    for item in summarize_recent_files(product_reports):
-        lines.append(f"- {item}")
-
-    lines.extend([
-        "",
-        "### Artist Reports",
-    ])
-
-    for item in summarize_recent_files(artist_reports):
-        lines.append(f"- {item}")
-
-    lines.extend([
-        "",
-        "### Competitor Reports",
-    ])
-
-    for item in summarize_recent_files(competitor_reports):
-        lines.append(f"- {item}")
-
-    lines.extend([
-        "",
-        "## Emerging Trends",
-        "",
-    ])
 
     for term, count in trends[:10]:
         lines.append(
@@ -441,49 +424,45 @@ def build_executive_summary(
         "",
         "## Trend Momentum",
         "",
-        "### Rising",
+        "### Rising"
     ])
 
     lines.extend(
         [f"- {x}" for x in rising]
-        if rising else
-        ["- None"]
+        if rising else ["- None"]
     )
 
     lines.extend([
         "",
-        "### Stable",
+        "### Stable"
     ])
 
     lines.extend(
         [f"- {x}" for x in stable]
-        if stable else
-        ["- None"]
+        if stable else ["- None"]
     )
 
     lines.extend([
         "",
-        "### Declining",
+        "### Declining"
     ])
 
     lines.extend(
         [f"- {x}" for x in declining]
-        if declining else
-        ["- None"]
+        if declining else ["- None"]
     )
 
     lines.extend([
         "",
         "## Recommended Actions",
         "",
-        "- Monitor rising trends for merchandising opportunities.",
-        "- Investigate declining trends before inventory expansion.",
-        "- Compare momentum changes across future runs.",
-        "- Continue building historical intelligence archives.",
+        "- Monitor rising categories.",
+        "- Watch declining categories.",
+        "- Continue building historic intelligence.",
         "",
         "---",
         "",
-        "Generated by Executive Summary Agent V6.1",
+        "Generated by Executive Summary Agent V6.1"
     ])
 
     return "\n".join(lines)
@@ -506,9 +485,6 @@ def save_executive_summary(summary):
 
     with open(archive_file, "w", encoding="utf-8") as file:
         file.write(summary)
-
-    print(f"Executive summary saved: {root_file}")
-    print(f"Executive archive saved: {archive_file}")
 
 
 def main():
@@ -563,7 +539,7 @@ def main():
     )
 
     print(
-        "Executive Summary Agent V6.1 completed successfully."
+        "Executive Summary Agent V6.1 completed."
     )
 
 
