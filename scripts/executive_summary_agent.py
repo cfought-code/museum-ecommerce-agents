@@ -668,6 +668,53 @@ def save_executive_summary(summary):
     with open(archive_file, "w", encoding="utf-8") as file:
         file.write(summary)
 
+def save_leadership_dashboard(dashboard):
+
+    root_file = os.path.join(
+        REPORTS_DIR,
+        "leadership-dashboard.md"
+    )
+
+    archive_file = os.path.join(
+        DASHBOARD_DIR,
+        f"{TODAY}-leadership-dashboard.md"
+    )
+
+    with open(
+        root_file,
+        "w",
+        encoding="utf-8"
+    ) as file:
+
+        file.write(dashboard)
+
+    with open(
+        archive_file,
+        "w",
+        encoding="utf-8"
+    ) as file:
+
+        file.write(dashboard)
+
+    print(
+        f"Leadership dashboard saved: {root_file}"
+    )
+
+    print(
+        f"Dashboard archive saved: {archive_file}"
+    )
+
+def generate_leadership_dashboard():
+
+    lines = [
+        "# Leadership Dashboard",
+        "",
+        "## Executive Snapshot",
+        "",
+        "- Dashboard generation test successful"
+    ]
+
+    return "\n".join(lines)
 
 def main():
 
@@ -728,6 +775,12 @@ def main():
 
     save_executive_summary(
         executive_summary
+    )
+
+    dashboard = generate_leadership_dashboard()
+
+    save_leadership_dashboard(
+        dashboard
     )
 
     print(
