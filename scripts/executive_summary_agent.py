@@ -817,7 +817,11 @@ def generate_leadership_dashboard(
             lines.append(
                 f"- {term}: {count} mentions"
             )
-    
+    else:
+        lines.append(
+            "- No trends detected."
+        )
+
     lines.extend([
         "",
         "## Momentum Detail",
