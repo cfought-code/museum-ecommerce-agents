@@ -182,6 +182,19 @@ def extract_top_terms(text_blocks, top_n=15):
         "career",
         "artwork",
         "artworks",
+
+        "category",
+        "suggested",
+        "everyday",
+        "artistic",
+        "craftsmanship",
+        "blown",
+        "suggestions",
+        "recommended",
+        "recommendation",
+        "glassblowing",
+        "handcrafted",
+        
     }
 
     counter = Counter()
@@ -825,6 +838,21 @@ def generate_leadership_dashboard(
             "- No trends detected."
         )
 
+    lines.extend([
+        "",
+        "## Momentum Detail",
+        ""
+    ])
+
+    for trend, data in sorted(
+        momentum_data.items()
+    ):
+        lines.append(
+            f"- {trend}: "
+            f"{data['status']} "
+            f"({data['change']:+d})"
+        )
+    
     lines.extend([
         "",
         "## Watch List",
