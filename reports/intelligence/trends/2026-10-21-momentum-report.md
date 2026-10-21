@@ -19,6 +19,12 @@
 - craftsmanship (+0)
 - artistic (+0)
 - everyday (+0)
+- tradition (+0)
+- agent (+0)
+- generated (+0)
+- information (+0)
+- name (+0)
+- normalized (+0)
 
 ## Declining Trends
 - None

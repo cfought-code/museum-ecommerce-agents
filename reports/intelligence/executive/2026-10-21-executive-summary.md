@@ -16,8 +16,8 @@
 - vase: 5 mentions
 - mike: 5 mentions
 - wallace: 5 mentions
-- category: 2 mentions
-- blown: 2 mentions
+- color: 2 mentions
+- tradition: 2 mentions
 
 ## Trend Momentum
 
@@ -40,6 +40,12 @@
 - craftsmanship
 - artistic
 - everyday
+- tradition
+- agent
+- generated
+- information
+- name
+- normalized
 
 ### Declining
 - None
