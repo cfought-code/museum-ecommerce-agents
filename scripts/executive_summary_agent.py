@@ -795,18 +795,34 @@ def generate_leadership_dashboard(
         "",
         "---",
         "",
-        "## Top Growth Areas",
+        "## Top Trends",
         ""
     ]
 
-    if rising:
-        for item in rising[:5]:
+    if trends:
+        for term, count in trends[:10]:
             lines.append(
-                f"- {item['trend']} (+{item['change']})"
+                f"- {term}: {count} mentions"
             )
+    
+    lines.extend([
+        "",
+        "## Momentum Detail",
+        ""
+    ])
+
+    for trend, data in sorted(
+        momentum_data.items()
+    ):
+        lines.append(
+            f"- {trend}: "
+            f"{data['status']} "
+            f"({data['change']:+d})"
+        )
+        
     else:
         lines.append(
-            "- No significant growth signals detected."
+            "- No trends detected."
         )
 
     lines.extend([
