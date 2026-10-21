@@ -30,9 +30,37 @@ Current intelligence indicates 0 rising trends, 15 stable trends, and 0 declinin
 
 ---
 
-## Top Growth Areas
+## Top Trends
 
-- No significant growth signals detected.
+- glass: 22 mentions
+- studio: 6 mentions
+- rainbow: 5 mentions
+- teardrop: 5 mentions
+- cane: 5 mentions
+- vase: 5 mentions
+- mike: 5 mentions
+- wallace: 5 mentions
+- category: 2 mentions
+- blown: 2 mentions
+
+## Momentum Detail
+
+- artistic: Stable (+0)
+- blown: Stable (+0)
+- cane: Stable (+0)
+- category: Stable (+0)
+- color: Stable (+0)
+- craftsmanship: Stable (+0)
+- everyday: Stable (+0)
+- glass: Stable (+0)
+- mike: Stable (+0)
+- rainbow: Stable (+0)
+- studio: Stable (+0)
+- suggested: Stable (+0)
+- teardrop: Stable (+0)
+- vase: Stable (+0)
+- wallace: Stable (+0)
+- No trends detected.
 
 ## Watch List
 
