@@ -194,6 +194,65 @@ def extract_top_terms(text_blocks, top_n=15):
         "recommendation",
         "glassblowing",
         "handcrafted",
+
+        "agent",
+        "generated",
+        "information",
+        "name",
+        "normalized",
+
+        "category",
+        "categories",
+
+        "suggested",
+        "recommendation",
+        "recommendations",
+
+        "artistic",
+        "craftsmanship",
+        "everyday",
+
+        "blown",
+        "glassblowing",
+
+        "color",
+        "colors",
+
+        "history",
+        "historic",
+        "tracking",
+
+        "priority",
+        "medium",
+        "high",
+
+        "maintain",
+        "coverage",
+
+        "reporting",
+
+        "generatedby",
+
+        "interior",
+        "decor",
+        "decorative",
+
+        "stunning",
+        "elegant",
+        "modern",
+        "contemporary",
+
+        "celebration",
+        "beautifully",
+
+        "functional",
+        "functionality",
+
+        "traditional",
+        "tradition",
+
+        "collectors",
+        "collector",
         
     }
 
@@ -817,26 +876,6 @@ def generate_leadership_dashboard(
             lines.append(
                 f"- {term}: {count} mentions"
             )
-    else:
-        lines.append(
-            "- No trends detected."
-        )
-
-    lines.extend([
-        "",
-        "## Momentum Detail",
-        ""
-    ])
-
-    for trend, data in sorted(
-        momentum_data.items()
-    ):
-        lines.append(
-            f"- {trend}: "
-            f"{data['status']} "
-            f"({data['change']:+d})"
-        )
-        
     else:
         lines.append(
             "- No trends detected."
