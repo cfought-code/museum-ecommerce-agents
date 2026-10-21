@@ -25,6 +25,13 @@
 - information (+0)
 - name (+0)
 - normalized (+0)
+- materials (+0)
+- price (+0)
+- dimensions (+0)
+- vendor (+0)
+- shopify (+0)
+- title (+0)
+- short (+0)
 
 ## Declining Trends
 - None

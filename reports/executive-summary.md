@@ -16,8 +16,8 @@
 - vase: 5 mentions
 - mike: 5 mentions
 - wallace: 5 mentions
-- color: 2 mentions
-- tradition: 2 mentions
+- materials: 1 mentions
+- price: 1 mentions
 
 ## Trend Momentum
 
@@ -46,6 +46,13 @@
 - information
 - name
 - normalized
+- materials
+- price
+- dimensions
+- vendor
+- shopify
+- title
+- short
 
 ### Declining
 - None
