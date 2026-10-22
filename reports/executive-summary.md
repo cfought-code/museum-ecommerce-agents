@@ -1,4 +1,4 @@
-# Executive Summary - 2026-10-21
+# Executive Summary - 2026-10-22
 
 ## Repository Health
 
@@ -33,19 +33,6 @@
 - vase
 - mike
 - wallace
-- blown
-- category
-- suggested
-- color
-- craftsmanship
-- artistic
-- everyday
-- tradition
-- agent
-- generated
-- information
-- name
-- normalized
 - materials
 - price
 - dimensions

@@ -1,6 +1,6 @@
 # Leadership Dashboard
 
-Generated: 2026-10-21
+Generated: 2026-10-22
 
 ---
 
@@ -17,7 +17,7 @@ Generated: 2026-10-21
 | Metric | Value |
 |---------|---------|
 | Rising Trends | 0 |
-| Stable Trends | 28 |
+| Stable Trends | 15 |
 | Declining Trends | 0 |
 | Strategic Opportunities | 8 |
 | Total Trends Tracked | 15 |
@@ -26,7 +26,7 @@ Generated: 2026-10-21
 
 ## Executive Summary
 
-Current intelligence indicates 0 rising trends, 28 stable trends, and 0 declining trends across 15 tracked topics.
+Current intelligence indicates 0 rising trends, 15 stable trends, and 0 declining trends across 15 tracked topics.
 
 ---
 
@@ -45,33 +45,15 @@ Current intelligence indicates 0 rising trends, 28 stable trends, and 0 declinin
 
 ## Momentum Detail
 
-- agent: Stable (+0)
-- artistic: Stable (+0)
-- blown: Stable (+0)
 - cane: Stable (+0)
-- category: Stable (+0)
-- color: Stable (+0)
-- craftsmanship: Stable (+0)
-- dimensions: Stable (+0)
-- everyday: Stable (+0)
-- generated: Stable (+0)
 - glass: Stable (+0)
-- information: Stable (+0)
 - materials: Stable (+0)
 - mike: Stable (+0)
-- name: Stable (+0)
-- normalized: Stable (+0)
 - price: Stable (+0)
 - rainbow: Stable (+0)
-- shopify: Stable (+0)
-- short: Stable (+0)
 - studio: Stable (+0)
-- suggested: Stable (+0)
 - teardrop: Stable (+0)
-- title: Stable (+0)
-- tradition: Stable (+0)
 - vase: Stable (+0)
-- vendor: Stable (+0)
 - wallace: Stable (+0)
 
 ## Watch List
