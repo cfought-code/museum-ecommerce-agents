@@ -24,6 +24,18 @@ Generated: 2026-10-22
 
 ---
 
+## KPI Scorecard
+
+| KPI | Score |
+|------|------|
+| Growth Score | 0 |
+| Risk Score | 0 |
+| Opportunity Score | 80 |
+| Momentum Score | 0 |
+| Leadership Score | 45 |
+
+---
+
 ## Executive Summary
 
 Current intelligence indicates 0 rising trends, 15 stable trends, and 0 declining trends across 15 tracked topics.
