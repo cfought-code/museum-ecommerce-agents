@@ -28,11 +28,11 @@ Generated: 2026-10-22
 
 | KPI | Score |
 |------|------|
-| Growth Score | 0 |
-| Risk Score | 0 |
-| Opportunity Score | 80 |
-| Momentum Score | 0 |
-| Leadership Score | 45 |
+| Growth Score | 🔴 0 |
+| Risk Score | 🟢 0 |
+| Opportunity Score | 🟢 80 |
+| Momentum Score | 🔴 0 |
+| Leadership Score | 🔴 45 |
 
 ---
 

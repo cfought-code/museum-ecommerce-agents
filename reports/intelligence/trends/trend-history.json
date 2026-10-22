@@ -1,61 +1,76 @@
 {
   "glass": [
     22,
+    22,
     22
   ],
   "studio": [
+    6,
     6,
     6
   ],
   "rainbow": [
     5,
+    5,
     5
   ],
   "teardrop": [
+    5,
     5,
     5
   ],
   "cane": [
     5,
+    5,
     5
   ],
   "vase": [
+    5,
     5,
     5
   ],
   "mike": [
     5,
+    5,
     5
   ],
   "wallace": [
+    5,
     5,
     5
   ],
   "materials": [
     1,
+    1,
     1
   ],
   "price": [
+    1,
     1,
     1
   ],
   "dimensions": [
     1,
+    1,
     1
   ],
   "vendor": [
+    1,
     1,
     1
   ],
   "shopify": [
     1,
+    1,
     1
   ],
   "title": [
     1,
+    1,
     1
   ],
   "short": [
+    1,
     1,
     1
   ]
