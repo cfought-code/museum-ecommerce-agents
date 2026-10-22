@@ -892,7 +892,7 @@ def generate_leadership_dashboard(
         opportunities
     )
 
-        growth_band = get_score_indicator(
+    growth_band = get_score_indicator(
         kpis["growth"]
     )
 
