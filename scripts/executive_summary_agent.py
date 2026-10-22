@@ -830,6 +830,33 @@ def calculate_kpi_scores(
         "leadership": leadership_score
     }
 
+def get_score_indicator(
+    score,
+    reverse=False
+):
+    """
+    Return executive score indicator.
+
+    reverse=True means lower scores are better
+    (used for Risk Score).
+    """
+
+    if reverse:
+        if score <= 20:
+            return "🟢"
+        elif score <= 50:
+            return "🟡"
+        else:
+            return "🔴"
+
+    if score >= 75:
+        return "🟢"
+
+    if score >= 50:
+        return "🟡"
+
+    return "🔴"
+
 def generate_leadership_dashboard(
     trends,
     momentum_data,
@@ -865,6 +892,27 @@ def generate_leadership_dashboard(
         opportunities
     )
 
+        growth_band = get_score_indicator(
+        kpis["growth"]
+    )
+
+    risk_band = get_score_indicator(
+        kpis["risk"],
+        reverse=True
+    )
+
+    opportunity_band = get_score_indicator(
+        kpis["opportunity"]
+    )
+
+    momentum_band = get_score_indicator(
+        kpis["momentum"]
+    )
+
+    leadership_band = get_score_indicator(
+        kpis["leadership"]
+    )
+    
     rising.sort(
         key=lambda x: x["change"],
         reverse=True
@@ -918,11 +966,11 @@ def generate_leadership_dashboard(
         "",
         "| KPI | Score |",
         "|------|------|",
-        f"| Growth Score | {kpis['growth']} |",
-        f"| Risk Score | {kpis['risk']} |",
-        f"| Opportunity Score | {kpis['opportunity']} |",
-        f"| Momentum Score | {kpis['momentum']} |",
-        f"| Leadership Score | {kpis['leadership']} |",
+        f"| Growth Score | {growth_band} {kpis['growth']} |",
+        f"| Risk Score | {risk_band} {kpis['risk']} |",
+        f"| Opportunity Score | {opportunity_band} {kpis['opportunity']} |",
+        f"| Momentum Score | {momentum_band} {kpis['momentum']} |",
+        f"| Leadership Score | {leadership_band} {kpis['leadership']} |",
         "",
         "---",
         "",
