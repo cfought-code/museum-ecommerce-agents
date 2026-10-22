@@ -776,6 +776,60 @@ def save_leadership_dashboard(dashboard):
         f"Dashboard archive saved: {archive_file}"
     )
 
+def calculate_kpi_scores(
+    momentum_data,
+    opportunities
+):
+
+    rising = [
+        x for x in momentum_data.values()
+        if x["status"] == "Rising"
+    ]
+
+    declining = [
+        x for x in momentum_data.values()
+        if x["status"] == "Declining"
+    ]
+
+    growth_score = min(
+        len(rising) * 10,
+        100
+    )
+
+    risk_score = min(
+        len(declining) * 10,
+        100
+    )
+
+    opportunity_score = min(
+        len(opportunities) * 10,
+        100
+    )
+
+    momentum_score = round(
+        (
+            len(rising)
+            / max(len(momentum_data), 1)
+        ) * 100
+    )
+
+    leadership_score = round(
+        (
+            growth_score +
+            opportunity_score +
+            momentum_score +
+            (100 - risk_score)
+        ) / 4
+    )
+
+    return {
+        "growth": growth_score,
+        "risk": risk_score,
+        "opportunity": opportunity_score,
+        "momentum": momentum_score,
+        "leadership": leadership_score
+    }
+
 def generate_leadership_dashboard(
     trends,
     momentum_data,
@@ -805,6 +859,11 @@ def generate_leadership_dashboard(
         for trend, data in momentum_data.items()
         if data["status"] == "Stable"
     ]
+
+    kpis = calculate_kpi_scores(
+        momentum_data,
+        opportunities
+    )
 
     rising.sort(
         key=lambda x: x["change"],
@@ -852,6 +911,18 @@ def generate_leadership_dashboard(
         f"| Declining Trends | {len(declining)} |",
         f"| Strategic Opportunities | {len(opportunities)} |",
         f"| Total Trends Tracked | {len(trends)} |",
+        "",
+        "---",
+        "",
+        "## KPI Scorecard",
+        "",
+        "| KPI | Score |",
+        "|------|------|",
+        f"| Growth Score | {kpis['growth']} |",
+        f"| Risk Score | {kpis['risk']} |",
+        f"| Opportunity Score | {kpis['opportunity']} |",
+        f"| Momentum Score | {kpis['momentum']} |",
+        f"| Leadership Score | {kpis['leadership']} |",
         "",
         "---",
         "",
