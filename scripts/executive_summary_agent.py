@@ -887,9 +887,34 @@ def generate_leadership_dashboard(
         ""
     ])
 
+    dashboard_exclusions = {
+        "agent",
+        "artistic",
+        "blown",
+        "category",
+        "color",
+        "craftsmanship",
+        "dimensions",
+        "everyday",
+        "generated",
+        "information",
+        "name",
+        "normalized",
+        "shopify",
+        "short",
+        "suggested",
+        "title",
+        "tradition",
+        "vendor"
+    }
+    
     for trend, data in sorted(
         momentum_data.items()
     ):
+
+        if trend in dashboard_exclusions:
+            continue
+        
         lines.append(
             f"- {trend}: "
             f"{data['status']} "
