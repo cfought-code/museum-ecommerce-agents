@@ -96,3 +96,6 @@ reports/shopify_exports/*
 
 data/shopify/*.csv
 !data/shopify/.gitkeep
+
+node_modules/
+.netlify/
