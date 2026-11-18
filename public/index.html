@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalog Studio · Museum Ecommerce</title>
+<link rel="stylesheet" href="/studio.css">
+<script type="module" src="/studio.js"></script>
+</head>
+<body>
+<header><a class="wordmark" href="/">M<span> / </span>E</a><span class="eyebrow">MUSEUM ECOMMERCE · CATALOG STUDIO</span><button id="logout" hidden>Sign out</button></header>
+<main>
+<section class="intro"><div><p class="eyebrow">FROM THE COLLECTION, FOR THE COLLECTION</p><h1>Considered words.<br><i>Grounded in the work.</i></h1></div><p class="dek">Artist stories and product copy, drawn from the Toledo Museum store. Gather the facts, review the evidence, make it your own.</p></section>
+<p id="message" role="status" aria-live="polite"></p>
+<section id="auth" class="panel auth"><div><p class="eyebrow">YOUR PRIVATE WORKSPACE</p><h2>A place to review.</h2><p>Sign in with an invited administrator account to gather source material and review drafts.</p><p class="muted">First-time setup: invite your account in Netlify Identity and assign the admin role.</p></div><form id="login"><label>Email<input name="email" type="email" autocomplete="username" required></label><label>Password<input name="password" type="password" autocomplete="current-password" minlength="8" required></label><button type="submit" class="primary">Enter the studio <span aria-hidden="true">↗</span></button><button type="button" id="recover">Reset password</button></form><form id="set-password" hidden><label>Choose a password<input name="password" type="password" autocomplete="new-password" minlength="8" required></label><button class="primary">Save password</button></form></section>
+<section id="workspace" hidden>
+<div class="run-header"><div><p class="eyebrow">01 / SOURCE & GENERATE</p><h2>The catalog, in progress.</h2></div><button class="primary" id="start">Start full catalog run ↗</button></div>
+<div class="panel progress"><div><span class="eyebrow">CURRENT RUN</span><h3 id="run-state">No run yet</h3><p id="run-detail">Start a run to discover public products and prepare source-backed drafts.</p></div><div class="numbers"><div><strong id="product-count">—</strong><span>products found</span></div><div><strong id="artist-count">—</strong><span>artists identified</span></div><div><strong id="draft-count">—</strong><span>drafts ready</span></div></div></div>
+<p id="run-error" class="error" role="alert" hidden></p>
+<div class="actions"><button id="step" hidden>Process next batch</button><button id="pause" hidden>Pause run</button><button id="continue" hidden>Continue run</button><button id="retry" hidden>Retry blocked run</button><button id="export" hidden>Download drafts & source inputs ↓</button><span class="muted">Active runs advance automatically each minute in production.</span></div>
+<div class="review-header"><div><p class="eyebrow">02 / READ & REFINE</p><h2>Every word deserves a second look.</h2></div><p class="muted">Approval records your review.<br>Nothing is published to the store.</p></div>
+<div class="tabs" role="group" aria-label="Draft type"><button class="selected" id="products">Products</button><button id="artists">Artists</button><span id="list-count" class="muted"></span></div>
+<div class="review-grid"><aside id="draft-list" aria-label="Catalog entries"></aside><article id="editor" class="panel"><p class="eyebrow">THE REVIEW DESK</p><h3>Room for a closer look.</h3><p class="muted">Choose an entry to review its sources, extracted inputs, and draft copy. Missing information stays visible.</p></article></div>
+<div class="pagination"><button id="previous">← Previous</button><span id="page-label"></span><button id="next">Next →</button></div>
+</section>
+</main><footer><span>MUSEUM ECOMMERCE</span><span>Source first. Human reviewed.</span></footer>
+</body></html>

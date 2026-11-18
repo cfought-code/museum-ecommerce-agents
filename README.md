@@ -86,3 +86,7 @@ scripts/
 ## License
 
 MIT License
+
+## Site-wide catalog drafts
+
+[Catalog Studio](docs/catalog-automation.md) adds reusable public-store discovery, LLM extraction of artist and product inputs, and a private draft review workspace. Runs are resumable, source evidence is retained, and exports include draft copy and extracted workflow inputs. No content is automatically published to Shopify.
